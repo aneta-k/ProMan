@@ -128,10 +128,6 @@ section.board{
     padding-right: 16px;
 }
 
-.fa-chevron-down {
-    pointer-events: none;
-}
-
-.fa-chevron-up {
+.fas {
     pointer-events: none;
 }

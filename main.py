@@ -41,6 +41,12 @@ def get_statuses():
     return queries.get_statuses()
 
 
+@app.route("/api/cards/<int:card_id>/delete", methods=['DELETE'])
+def delete_card(card_id):
+    queries.delete_card(card_id)
+    return 'ok'
+
+
 def main():
     app.run(debug=True)
 

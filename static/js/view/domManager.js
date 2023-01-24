@@ -31,4 +31,12 @@ export let domManager = {
             console.error("could not find such html element: " + elementIdentifier);
         }
     },
+    deleteElement(elementIdentifier) {
+        const parent = document.querySelector(elementIdentifier);
+        if (parent) {
+            parent.remove();
+        } else {
+            console.error("could not find such html element: " + elementIdentifier);
+        }
+    },
 };
