@@ -35,6 +35,12 @@ def get_cards_for_board(board_id: int):
     return queries.get_cards_for_board(board_id)
 
 
+@app.route("/api/statuses")
+@json_response
+def get_statuses():
+    return queries.get_statuses()
+
+
 def main():
     app.run(debug=True)
 

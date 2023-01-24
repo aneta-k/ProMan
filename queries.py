@@ -41,3 +41,11 @@ def get_cards_for_board(board_id):
         , {"board_id": board_id})
 
     return matching_cards
+
+def get_statuses():
+    return data_manager.execute_select(
+        """
+        SELECT * FROM statuses
+        ;
+        """
+    )
