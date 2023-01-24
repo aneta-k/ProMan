@@ -18,6 +18,9 @@ export let boardsManager = {
             );
         }
     },
+    initNewBoardButton: function () {
+      domManager.addEventListener(`#newBoard`, "click", addNewBoard);
+    },
 };
 
 async function showHideButtonHandler(clickEvent) {
@@ -30,4 +33,8 @@ async function showHideButtonHandler(clickEvent) {
         await columnManager.loadColumns(boardId);
         await cardsManager.loadCards(boardId);
     }
+}
+
+function addNewBoard() {
+    console.log('test')
 }
