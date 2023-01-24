@@ -20,8 +20,14 @@ export let boardsManager = {
     },
 };
 
-function showHideButtonHandler(clickEvent) {
+async function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    columnManager.loadColumns(boardId);
-    cardsManager.loadCards(boardId);
+    document.querySelector(`.board[data-board-id="${boardId}"] .board-header .board-toggle i`).classList.toggle('fa-chevron-down');
+    document.querySelector(`.board[data-board-id="${boardId}"] .board-header .board-toggle i`).classList.toggle('fa-chevron-up');
+    if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+        domManager.deleteChildren(`.board[data-board-id="${boardId}"] .board-columns`);
+    } else {
+        await columnManager.loadColumns(boardId);
+        await cardsManager.loadCards(boardId);
+    }
 }
