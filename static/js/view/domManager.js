@@ -1,3 +1,5 @@
+import { dataHandler } from "../data/dataHandler.js";
+
 export let domManager = {
   addChild(parentIdentifier, childContent) {
     const parent = document.querySelector(parentIdentifier);
@@ -66,7 +68,7 @@ export let domManager = {
         const inputText = document.getElementById("tempTextBox");
         const saveButton = document.getElementById("saveButton");
         const textSpace = " ";
-        const boardID = boardTitle.board - title - id;
+        const boardID = boardTitle.getAttribute("board-title-id");
         console.log("A jakie ID?" + boardID);
         boardTitle.innerText = inputText.value;
         inputText.replaceWith(boardTitle);
