@@ -11,5 +11,9 @@ export let columnManager = {
             const content = columnBuilder(status);
             domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, content);
         }
+        let columns = document.getElementsByClassName('card-slot');
+        for (let column of columns) {
+            dragHandler.initDropzone(column);
+        }
     },
 };
