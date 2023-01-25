@@ -38,13 +38,16 @@ async function apiGet(url) {
 }
 
 async function apiPost(url, payload) {
-    await fetch(url, {
+    let response = await fetch(url, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
     });
+    if (response.ok) {
+        return await response.json();
+    }
 }
 
 async function apiDelete(url) {

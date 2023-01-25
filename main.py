@@ -29,8 +29,7 @@ def get_boards():
 @json_response
 def create_board():
     title = request.json['title']
-    queries.create_board(title)
-    return 'ok'
+    return queries.create_board(title)
 
 
 @app.route("/api/boards/<int:board_id>/cards/")

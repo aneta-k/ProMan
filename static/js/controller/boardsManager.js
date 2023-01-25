@@ -44,8 +44,16 @@ function addNewBoard() {
     domManager.addEventListener(`#newBoardField form`, 'submit', submitNewBoard);
 }
 
-function submitNewBoard(event) {
+async function submitNewBoard(event) {
     const title = event.currentTarget[0].value;
-    dataHandler.createNewBoard(title);
+    let board = (await dataHandler.createNewBoard(title))[0];
+    const boardBuilder = htmlFactory(htmlTemplates.board);
+    const content = boardBuilder(board);
+    domManager.addChild("#root", content);
+    domManager.addEventListener(
+        `.toggle-board-button[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+    );
     domManager.deleteChildren(`#newBoardField`);
 }
