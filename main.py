@@ -54,6 +54,13 @@ def delete_card(card_id):
     return 'ok'
 
 
+@app.route("/api/cards/<int:card_id>/status/update", methods=['PATCH'])
+def update_card_status(card_id):
+    status = request.json['statusId']
+    queries.update_card_status(card_id, status)
+    return 'ok'
+
+
 def main():
     app.run(debug=True)
 

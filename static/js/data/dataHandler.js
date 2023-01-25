@@ -26,6 +26,9 @@ export let dataHandler = {
     deleteCard: async function (cardId) {
         await apiDelete(`/api/cards/${cardId}/delete`);
     },
+    updateCardStatus: async function (cardId, statusId) {
+        await apiPatch(`/api/cards/${cardId}/status/update`, {'statusId':statusId});
+    },
 };
 
 async function apiGet(url) {
@@ -59,5 +62,12 @@ async function apiDelete(url) {
 async function apiPut(url) {
 }
 
-async function apiPatch(url) {
+async function apiPatch(url, payload) {
+    await fetch(url, {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
 }

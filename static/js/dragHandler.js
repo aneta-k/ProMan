@@ -29,19 +29,6 @@ const page = {
 };
 
 
-function initDraggable(draggable) {
-    draggable.setAttribute("draggable", true);
-    draggable.addEventListener("dragstart", handleDragStart);
-    draggable.addEventListener("dragend", handleDragEnd);
-}
-
-function initDropzone(dropzone) {
-    dropzone.addEventListener("dragenter", handleDragEnter);
-    dropzone.addEventListener("dragover", handleDragOver);
-    dropzone.addEventListener("dragleave", handleDragLeave);
-    dropzone.addEventListener("drop", handleDrop);
-}
-
 function handleDragStart(e) {
     page.dragged = e.currentTarget;
     page.dragged.classList.add('card-dragged')
@@ -81,5 +68,6 @@ function handleDrop(e) {
 
     if (dom.hasClass(dropzone, "card-slot") && page.dragged.getAttribute('data-board-id') === dropzone.parentNode.getAttribute('data-board-id')) {
         dropzone.appendChild(page.dragged);
+        dataHandler.updateCardStatus(page.dragged.getAttribute('data-card-id'), dropzone.parentNode.getAttribute('data-column-id'));
     }
 }
