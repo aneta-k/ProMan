@@ -105,8 +105,7 @@ def update_card_status(card_id, status_id):
         , {"card_id": card_id, "status_id": status_id})
 
 def change_board_title(board_id, title):
-    print(str(title) + " and " + str(board_id))
-    data_manager.execute(
+    data_manager.execute_select(
         """
         UPDATE boards
         SET title = %(title)s

@@ -71,10 +71,8 @@ def update_card_status(card_id):
 @app.route("/api/board/<int:board_id>", methods=["PATCH"])
 @json_response
 def change_board_title(board_id):
-    if request.method == "PATCH":
-        title = request.json['title']
-        print(str(title) + " and " + str(board_id))
-        return queries.change_board_title(board_id, title)
+    title = request.json['title']
+    return queries.change_board_title(board_id, title)
 
 
 def main():
