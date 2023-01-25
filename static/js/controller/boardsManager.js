@@ -16,6 +16,11 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+            domManager.addEventListener(
+                `.board-add[data-board-id="${board.id}"]`,
+                'click',
+                newCardFormBuilder
+            )
         }
     },
     initNewBoardButton: function () {
@@ -35,13 +40,42 @@ async function showHideButtonHandler(clickEvent) {
     }
 }
 
+async function addCardHandler(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    const title = clickEvent.target[0].value;
+    const status = clickEvent.target[1].value;
+    let newCard = await dataHandler.createNewCard(title, boardId, status, '1');
+    domManager.deleteChildren(`#newFormField`);
+}
+
+async function newCardFormBuilder(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    const content = `<br><form onsubmit="return false;" data-board-id="${boardId}">
+                        <input type="text" placeholder="Card Title" required>
+                        <select id="statuses">
+                            
+                        </select>
+                        <button type="submit">Save</button>
+                    </form>`;
+    document.querySelector(`#newFormField`).innerHTML = content;
+    const statuses = await dataHandler.getStatuses(boardId)
+    const select = document.querySelector('#statuses');
+    for (let status of statuses) {
+        let option = document.createElement("option");
+        option.value = status.id;
+        option.text = status.title;
+        select.appendChild(option);
+    }
+    domManager.addEventListener(`#newFormField form`, 'submit', addCardHandler);
+}
+
 function addNewBoard() {
     const content = `<form onsubmit="return false;">
                         <input type="text" placeholder="Board Title" required>
                         <button type="submit">Save</button>
                     </form>`;
-    document.querySelector(`#newBoardField`).innerHTML = content;
-    domManager.addEventListener(`#newBoardField form`, 'submit', submitNewBoard);
+    document.querySelector(`#newFormField`).innerHTML = content;
+    domManager.addEventListener(`#newFormField form`, 'submit', submitNewBoard);
 }
 
 async function submitNewBoard(event) {
@@ -55,5 +89,5 @@ async function submitNewBoard(event) {
         "click",
         showHideButtonHandler
     );
-    domManager.deleteChildren(`#newBoardField`);
+    domManager.deleteChildren(`#newFormField`);
 }

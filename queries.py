@@ -54,6 +54,16 @@ def get_cards_for_board(board_id):
     return matching_cards
 
 
+
+def add_new_card(card, board_id):
+    return data_manager.execute_query(
+        '''
+        INSERT INTO cards (board_id, status_id, title, card_order)
+        VALUES (%(board_id)s, %(status_id)s, %(title)s, %(card_order)s)
+        ''',
+        {'board_id': board_id, 'status_id': card['status_id'], 'title': card['title'], 'card_order': card['card_order']})
+
+
 def get_statuses():
     return data_manager.execute_select(
         """
