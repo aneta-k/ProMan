@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import {dragHandler} from "../dragHandler.js";
 
 export let columnManager = {
     loadColumns: async function (boardId) {
