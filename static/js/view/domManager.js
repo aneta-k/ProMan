@@ -43,16 +43,10 @@ export let domManager = {
   },
   changeDomBoardTitle(boardTitle) {
     boardTitle.onclick = function () {
-      console.log(
-        "kliknął Pan w " +
-          boardTitle.innerText +
-          ", następnym razem proszę bardziej uważać."
-      );
       const inputText = document.createElement("input");
       inputText.setAttribute("type", "text");
       inputText.setAttribute("id", "tempTextBox");
       inputText.setAttribute("value", boardTitle.innerText);
-      console.log(inputText);
       const saveButton = document.createElement("button");
       saveButton.setAttribute("type", "button");
       saveButton.setAttribute("id", "saveButton");
@@ -60,7 +54,6 @@ export let domManager = {
       saveButton.setAttribute("class", "Button");
       saveButton.innerText = "Save";
       const textSpace = boardTitle.nextSibling;
-      console.log("siotra" + textSpace);
       boardTitle.replaceWith(inputText);
       textSpace.replaceWith(saveButton);
       inputText.focus();
@@ -69,10 +62,12 @@ export let domManager = {
         const saveButton = document.getElementById("saveButton");
         const textSpace = " ";
         const boardID = boardTitle.getAttribute("board-title-id");
-        console.log("A jakie ID?" + boardID);
         boardTitle.innerText = inputText.value;
         inputText.replaceWith(boardTitle);
         saveButton.replaceWith(textSpace);
+        console.log("leć do api 1 " + boardID);
+        console.log("leć do api 2 " + inputText.value);
+
         dataHandler.changeBoardTitleApi(boardID, inputText.value);
       });
     };

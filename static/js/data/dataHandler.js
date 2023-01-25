@@ -21,7 +21,7 @@ export let dataHandler = {
     return await apiPost(`/api/boards/create`, { title: boardTitle });
   },
   createNewCard: async function (cardTitle, boardId, statusId, cardOrder) {
-    let card = {'status_id': statusId, 'title': cardTitle, 'card_order': cardOrder};
+    let card = { status_id: statusId, title: cardTitle, card_order: cardOrder };
     return await apiPost(`/api/boards/${boardId}/cards/add_new`, card);
   },
   deleteCard: async function (cardId) {
@@ -33,8 +33,9 @@ export let dataHandler = {
     });
   },
   changeBoardTitleApi: async function (boardID, title) {
-    let data = { Id: boardID, title: title };
-    return await apiPut(`/api/board/${boardID}`, data);
+    let data = { id: boardID, title: title };
+    console.log("hi papi " + data);
+    return await apiPatch(`/api/board/${boardID}`, data);
   },
 };
 
