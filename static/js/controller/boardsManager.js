@@ -114,8 +114,5 @@ function changeBoardTitle(clickEvent) {
   const boardTitle = document.querySelector(
     `[board-title-id="${boardTitleId}"]`
   );
-  console.log(boardTitleId);
-  console.log(boardTitle);
-
   domManager.changeDomBoardTitle(boardTitle);
 }

@@ -1,3 +1,5 @@
+import { dataHandler } from "../data/dataHandler.js";
+
 export let domManager = {
   addChild(parentIdentifier, childContent) {
     const parent = document.querySelector(parentIdentifier);
@@ -39,7 +41,6 @@ export let domManager = {
       console.error("could not find such html element: " + elementIdentifier);
     }
   },
-
   changeDomBoardTitle(boardTitle) {
     boardTitle.onclick = function () {
       console.log(
@@ -52,7 +53,6 @@ export let domManager = {
       inputText.setAttribute("id", "tempTextBox");
       inputText.setAttribute("value", boardTitle.innerText);
       console.log(inputText);
-
       const saveButton = document.createElement("button");
       saveButton.setAttribute("type", "button");
       saveButton.setAttribute("id", "saveButton");
@@ -68,11 +68,13 @@ export let domManager = {
         const inputText = document.getElementById("tempTextBox");
         const saveButton = document.getElementById("saveButton");
         const textSpace = " ";
+        const boardID = boardTitle.getAttribute("board-title-id");
+        console.log("A jakie ID?" + boardID);
         boardTitle.innerText = inputText.value;
         inputText.replaceWith(boardTitle);
         saveButton.replaceWith(textSpace);
+        dataHandler.changeBoardTitleApi(boardID, inputText.value);
       });
     };
-    return boardTitle;
   },
 };
