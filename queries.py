@@ -103,3 +103,12 @@ def update_card_status(card_id, status_id):
         ;
         """
         , {"card_id": card_id, "status_id": status_id})
+
+def change_board_title(board_id, title):
+    return data_manager.execute(
+        """
+        UPDATE boards
+        SET title = %(title)s
+        WHERE id = %(board_id)s
+        """
+        , {"id": board_id, "title": title})
