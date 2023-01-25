@@ -45,30 +45,11 @@ async function showHideButtonHandler(clickEvent) {
     }
 }
 
-async function addCardHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
-    const title = clickEvent.target[0].value;
-    const status = clickEvent.target[1].value;
-    let newCard = await dataHandler.createNewCard(title, boardId, status, '1');
-    domManager.deleteChildren(`#newFormField`);
-    if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
-        const cardBuilder = htmlFactory(htmlTemplates.card);
-        const content = cardBuilder(newCard);
-        domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${newCard.status_id}"] .board-column-content`, content);
-        // domManager.addEventListener(
-        //     `.card-remove[data-card-id="${card.id}"]`,
-        //     "click",
-        //     cardsManager.deleteButtonHandler
-        // );
-    }
-}
-
 async function newCardFormBuilder(clickEvent) {
   const boardId = clickEvent.target.dataset.boardId;
   const content = `<br><form onsubmit="return false;" data-board-id="${boardId}">
                         <input type="text" placeholder="Card Title" required>
                         <select id="statuses">
-                            
                         </select>
                         <button type="submit">Save</button>
                     </form>`;
@@ -81,11 +62,11 @@ async function newCardFormBuilder(clickEvent) {
     option.text = status.title;
     select.appendChild(option);
   }
-  domManager.addEventListener(`#newFormField form`, "submit", addCardHandler);
+  domManager.addEventListener(`#newFormField form`, "submit", cardsManager.addCardHandler);
 }
 
 function addNewBoard() {
-  const content = `<form onsubmit="return false;">
+  const content = `<br><form onsubmit="return false;">
                         <input type="text" placeholder="Board Title" required>
                         <button type="submit">Save</button>
                     </form>`;
