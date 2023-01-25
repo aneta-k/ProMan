@@ -34,35 +34,33 @@ export let boardsManager = {
 };
 
 async function showHideButtonHandler(clickEvent) {
-  const boardId = clickEvent.target.dataset.boardId;
-  document
-    .querySelector(
-      `.board[data-board-id="${boardId}"] .board-header .board-toggle i`
-    )
-    .classList.toggle("fa-chevron-down");
-  document
-    .querySelector(
-      `.board[data-board-id="${boardId}"] .board-header .board-toggle i`
-    )
-    .classList.toggle("fa-chevron-up");
-  if (
-    domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)
-  ) {
-    domManager.deleteChildren(
-      `.board[data-board-id="${boardId}"] .board-columns`
-    );
-  } else {
-    await columnManager.loadColumns(boardId);
-    await cardsManager.loadCards(boardId);
-  }
+    const boardId = clickEvent.target.dataset.boardId;
+    document.querySelector(`.board[data-board-id="${boardId}"] .board-header .board-toggle i`).classList.toggle('fa-chevron-down');
+    document.querySelector(`.board[data-board-id="${boardId}"] .board-header .board-toggle i`).classList.toggle('fa-chevron-up');
+    if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+        domManager.deleteChildren(`.board[data-board-id="${boardId}"] .board-columns`);
+    } else {
+        await columnManager.loadColumns(boardId);
+        await cardsManager.loadCards(boardId);
+    }
 }
 
 async function addCardHandler(clickEvent) {
-  const boardId = clickEvent.target.dataset.boardId;
-  const title = clickEvent.target[0].value;
-  const status = clickEvent.target[1].value;
-  let newCard = await dataHandler.createNewCard(title, boardId, status, "1");
-  domManager.deleteChildren(`#newFormField`);
+    const boardId = clickEvent.target.dataset.boardId;
+    const title = clickEvent.target[0].value;
+    const status = clickEvent.target[1].value;
+    let newCard = await dataHandler.createNewCard(title, boardId, status, '1');
+    domManager.deleteChildren(`#newFormField`);
+    if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+        const cardBuilder = htmlFactory(htmlTemplates.card);
+        const content = cardBuilder(newCard);
+        domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${newCard.status_id}"] .board-column-content`, content);
+        // domManager.addEventListener(
+        //     `.card-remove[data-card-id="${card.id}"]`,
+        //     "click",
+        //     cardsManager.deleteButtonHandler
+        // );
+    }
 }
 
 async function newCardFormBuilder(clickEvent) {
