@@ -59,22 +59,20 @@ export let domManager = {
       saveButton.setAttribute("value", "Save");
       saveButton.setAttribute("class", "Button");
       saveButton.innerText = "Save";
-
       const textSpace = boardTitle.nextSibling;
       console.log("siotra" + textSpace);
-
       boardTitle.replaceWith(inputText);
       textSpace.replaceWith(saveButton);
+      inputText.focus();
+      saveButton.addEventListener("click", function (e) {
+        const inputText = document.getElementById("tempTextBox");
+        const saveButton = document.getElementById("saveButton");
+        const textSpace = " ";
+        boardTitle.innerText = inputText.value;
+        inputText.replaceWith(boardTitle);
+        saveButton.replaceWith(textSpace);
+      });
     };
     return boardTitle;
-  },
-
-  saveDomBoardTitle(boardTitle) {
-    const inputText = document.getElementById("tempTextBox");
-    const saveButton = document.getElementById("saveButton");
-    const textSpace = " ";
-    boardTitle.innerText = inputText.value;
-    inputText.replaceWith(boardTitle);
-    saveButton.replaceWith(textSpace);
   },
 };
