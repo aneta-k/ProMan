@@ -29,38 +29,40 @@ export let dataHandler = {
     updateCardStatus: async function (cardId, statusId) {
         await apiPatch(`/api/cards/${cardId}/status/update`, {'statusId':statusId});
     },
+    changeBoardTitleApi: async function (boardID, title) {
+        let data = { boardId: boardID, title: title };
+        return await apiPut(`/api/board/${boardID}`, data);
+    },
 };
 
 async function apiGet(url) {
-    let response = await fetch(url, {
-        method: "GET",
-    });
-    if (response.ok) {
-        return await response.json();
-    }
+  let response = await fetch(url, {
+    method: "GET",
+  });
+  if (response.ok) {
+    return await response.json();
+  }
 }
 
 async function apiPost(url, payload) {
-    let response = await fetch(url, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    });
-    if (response.ok) {
-        return await response.json();
-    }
+  let response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    // return console.log('ok')
+    return await response.json();
+  }
 }
 
 async function apiDelete(url) {
-    await fetch(url, {
-        method: "DELETE",
-    });
+  await fetch(url, {
+    method: "DELETE",
+  });
 }
 
-async function apiPut(url) {
-}
+async function apiPut(url) {}
 
 async function apiPatch(url, payload) {
     await fetch(url, {

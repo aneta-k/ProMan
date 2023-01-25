@@ -1,32 +1,32 @@
 export const htmlTemplates = {
-    board: 1,
-    card: 2,
-    column: 3,
-}
+  board: 1,
+  card: 2,
+  column: 3,
+};
 
 export const builderFunctions = {
-    [htmlTemplates.board]: boardBuilder,
-    [htmlTemplates.card]: cardBuilder,
-    [htmlTemplates.column]: columnBuilder
+  [htmlTemplates.board]: boardBuilder,
+  [htmlTemplates.card]: cardBuilder,
+  [htmlTemplates.column]: columnBuilder,
 };
 
 export function htmlFactory(template) {
-    if (builderFunctions.hasOwnProperty(template)) {
-        return builderFunctions[template];
-    }
+  if (builderFunctions.hasOwnProperty(template)) {
+    return builderFunctions[template];
+  }
 
-    console.error("Undefined template: " + template);
+  console.error("Undefined template: " + template);
 
-    return () => {
-        return "";
-    };
+  return () => {
+    return "";
+  };
 }
 
 function boardBuilder(board) {
-    return `<section class="board" data-board-id="${board.id}">
+  return `<section class="board" data-board-id="${board.id}">
                 <div class="board-header">
-                    <span class="board-title">${board.title}</span>
-                    <button class="board-add">Add Card</button>
+                    <span class="board-title" board-title-id="${board.id}">${board.title}</span>
+                    <button class="board-add" data-board-id="${board.id}">Add Card</button>
                     <button class="board-toggle toggle-board-button" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                 </div>
                 <div class="board-columns" data-board-id="${board.id}"></div>
