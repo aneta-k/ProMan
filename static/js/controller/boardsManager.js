@@ -36,5 +36,16 @@ async function showHideButtonHandler(clickEvent) {
 }
 
 function addNewBoard() {
-    console.log('test')
+    const content = `<form onsubmit="return false;">
+                        <input type="text" placeholder="Board Title" required>
+                        <button type="submit">Save</button>
+                    </form>`;
+    document.querySelector(`#newBoardField`).innerHTML = content;
+    domManager.addEventListener(`#newBoardField form`, 'submit', submitNewBoard);
+}
+
+function submitNewBoard(event) {
+    const title = event.currentTarget[0].value;
+    dataHandler.createNewBoard(title);
+    domManager.deleteChildren(`#newBoardField`);
 }
