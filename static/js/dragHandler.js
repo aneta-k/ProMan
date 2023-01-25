@@ -72,16 +72,12 @@ function handleDragStart(e) {
     page.dragged = e.currentTarget;
     page.dragged.classList.add('card-dragged')
 
-    ui.slots.forEach(slot => slot.classList.add('card-slot-highlighted'));
-
     console.log("Drag start of", page.dragged);
 }
 
 function handleDragEnd() {
     console.log("Drag end of", page.dragged);
     page.dragged.classList.remove('card-dragged')
-
-    ui.slots.forEach(slot => slot.classList.remove('card-slot-highlighted'));
 
     page.dragged = null;
 }
@@ -94,10 +90,6 @@ function handleDragEnter(e) {
     console.log("Drag enter of", e.currentTarget);
     if (page.dragged == null) {
         return;
-    }
-    let dropzone = e.currentTarget;
-    if (dropzone.classList.contains('card-slot')) {
-        dropzone.classList.add('card-slot-enter-highlighted');
     }
 }
 
@@ -117,10 +109,6 @@ function handleDrop(e) {
     console.log("Drop of", dropzone);
 
     if (dom.hasClass(dropzone, "card-slot")) {
-        if (dom.isEmpty(dropzone)) {
-            dropzone.appendChild(page.dragged);
-        }
-    } else if (dom.hasClass(dropzone, "mixed-cards")) {
         dropzone.appendChild(page.dragged);
     }
 }
