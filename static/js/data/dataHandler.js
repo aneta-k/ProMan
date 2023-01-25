@@ -27,6 +27,10 @@ export let dataHandler = {
     deleteCard: async function (cardId) {
         await apiDelete(`/api/cards/${cardId}/delete`);
     },
+    changeBoardTitleApi: async function (boardID, title) {
+      let data =  {'boardId': boardID, 'title': title }
+      return await apiPut(`/api/board/${boardID}`, data)
+
 };
 
 async function apiGet(url) {
