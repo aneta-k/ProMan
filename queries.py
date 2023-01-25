@@ -92,3 +92,14 @@ def delete_card(card_id):
         ;
         """
         , {"card_id": card_id})
+
+
+def update_card_status(card_id, status_id):
+    data_manager.execute(
+        """
+        UPDATE cards
+        SET status_id = %(status_id)s
+        WHERE id = %(card_id)s
+        ;
+        """
+        , {"card_id": card_id, "status_id": status_id})
