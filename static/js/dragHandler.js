@@ -1,3 +1,5 @@
+import {dataHandler} from "./data/dataHandler.js";
+
 export const dragHandler = {
      initDraggable(draggable) {
         draggable.setAttribute("draggable", true);
@@ -21,39 +23,11 @@ const dom = {
     },
 };
 
-const ui = {
-    slots: null,
-    cards: null,
-};
 
 const page = {
     dragged: null,
 };
 
-function initDragAndDrop() {
-    initElements();
-    initDragEvents();
-}
-
-function initElements() {
-    ui.cards = document.querySelectorAll(".card");
-    ui.slots = document.querySelectorAll(".card-slot");
-
-    ui.cards.forEach(function (card) {
-        card.setAttribute("draggable", true);
-    });
-}
-
-function initDragEvents() {
-    ui.cards.forEach(function (card) {
-        initDraggable(card);
-    });
-
-    ui.slots.forEach(function (slot) {
-        initDropzone(slot);
-    });
-
-}
 
 function initDraggable(draggable) {
     draggable.setAttribute("draggable", true);
@@ -88,9 +62,6 @@ function handleDragOver(e) {
 
 function handleDragEnter(e) {
     console.log("Drag enter of", e.currentTarget);
-    if (page.dragged == null) {
-        return;
-    }
 }
 
 function handleDragLeave(e) {
@@ -112,5 +83,3 @@ function handleDrop(e) {
         dropzone.appendChild(page.dragged);
     }
 }
-
-initDragAndDrop();
