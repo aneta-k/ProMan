@@ -8,7 +8,7 @@ export let columnManager = {
         const statuses = await dataHandler.getStatuses();
         for (let status of statuses) {
             const columnBuilder = htmlFactory(htmlTemplates.column);
-            const content = columnBuilder(status);
+            const content = columnBuilder(status, boardId);
             domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, content);
         }
         let columns = document.getElementsByClassName('card-slot');

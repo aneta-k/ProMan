@@ -108,7 +108,7 @@ function handleDrop(e) {
     const dropzone = e.currentTarget;
     console.log("Drop of", dropzone);
 
-    if (dom.hasClass(dropzone, "card-slot")) {
+    if (dom.hasClass(dropzone, "card-slot") && page.dragged.getAttribute('data-board-id') === dropzone.parentNode.getAttribute('data-board-id')) {
         dropzone.appendChild(page.dragged);
     }
 }
