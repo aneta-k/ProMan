@@ -1,31 +1,31 @@
 export const htmlTemplates = {
-    board: 1,
-    card: 2,
-    column: 3,
-}
+  board: 1,
+  card: 2,
+  column: 3,
+};
 
 export const builderFunctions = {
-    [htmlTemplates.board]: boardBuilder,
-    [htmlTemplates.card]: cardBuilder,
-    [htmlTemplates.column]: columnBuilder
+  [htmlTemplates.board]: boardBuilder,
+  [htmlTemplates.card]: cardBuilder,
+  [htmlTemplates.column]: columnBuilder,
 };
 
 export function htmlFactory(template) {
-    if (builderFunctions.hasOwnProperty(template)) {
-        return builderFunctions[template];
-    }
+  if (builderFunctions.hasOwnProperty(template)) {
+    return builderFunctions[template];
+  }
 
-    console.error("Undefined template: " + template);
+  console.error("Undefined template: " + template);
 
-    return () => {
-        return "";
-    };
+  return () => {
+    return "";
+  };
 }
 
 function boardBuilder(board) {
-    return `<section class="board" data-board-id="${board.id}">
+  return `<section class="board" data-board-id="${board.id}">
                 <div class="board-header">
-                    <span class="board-title">${board.title}</span>
+                    <span class="board-title" board-title-id="${board.id}">${board.title}</span>
                     <button class="board-add" data-board-id="${board.id}">Add Card</button>
                     <button class="board-toggle toggle-board-button" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                 </div>
@@ -34,14 +34,14 @@ function boardBuilder(board) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">
+  return `<div class="card" data-card-id="${card.id}">
                 <div class="card-remove" data-card-id="${card.id}"><i class="fas fa-trash-alt"></i></div>
                 <div class="card-title">${card.title}</div>
             </div>`;
 }
 
 function columnBuilder(column) {
-    return `<div class="board-column" data-column-id="${column.id}">
+  return `<div class="board-column" data-column-id="${column.id}">
                 <div class="board-column-title">${column.title}</div>
                 <div class="board-column-content"></div>
             </div>`;
