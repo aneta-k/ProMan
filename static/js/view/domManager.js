@@ -74,24 +74,26 @@ export let domManager = {
       const inputText = document.createElement("input");
       inputText.setAttribute("type", "text");
       inputText.setAttribute("id", "tempTextBox");
-      inputText.setAttribute("value", boardTitle.innerText);
+      inputText.setAttribute("value", cardTitle.innerText);
       cardTitle.replaceWith(inputText);
       inputText.focus();
-      document.addEventListener("click", function (e) {
-        if (const outsideClick = !inputText.contains(event.target)) {
-          inputText.replaceWith(cardTitle);
-        }
-      };
-      inputText.addEventListener("keypress", function (e) {
-        if (event.key === "Enter") {
+
+      inputText.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
           const inputText = document.getElementById("tempTextBox");
-          const cardID = cardTitle.getAttribute("data-card-id");
+          const cardID = cardTitle.getAttribute("card-title-id");
+          console.log(cardID);
           cardTitle.innerText = inputText.value;
           inputText.replaceWith(cardTitle);
           dataHandler.changeCardTitleApi(cardID, inputText.value);
-        } else if (event.key === "Escape") {
+        } else if (e.key === "Escape") {
           inputText.replaceWith(cardTitle);
-        } 
+        }
+        document.addEventListener("click", function (e) {
+          if (!inputText.contains(e.target)) {
+            inputText.replaceWith(cardTitle);
+          }
+        });
       });
     };
   },
