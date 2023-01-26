@@ -26,6 +26,7 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
+        ORDER BY id ASC
         ;
         """
     )
@@ -123,3 +124,13 @@ def change_board_title(board_id, title):
         ;
         """
         , {"board_id": board_id, "title": title})
+
+def change_card_title(card_id, title):
+    data_manager.execute(
+        """
+        UPDATE cards
+        SET title = %(title)s
+        WHERE id = %(card_id)s
+        ;
+        """
+        , {"card_id": card_id, "title": title})

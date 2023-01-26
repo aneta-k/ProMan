@@ -65,10 +65,35 @@ export let domManager = {
         boardTitle.innerText = inputText.value;
         inputText.replaceWith(boardTitle);
         saveButton.replaceWith(textSpace);
-        console.log("leć do api 1 " + boardID);
-        console.log("leć do api 2 " + inputText.value);
-
         dataHandler.changeBoardTitleApi(boardID, inputText.value);
+      });
+    };
+  },
+  changeDomCardTitle(cardTitle) {
+    cardTitle.onclick = function () {
+      const inputText = document.createElement("input");
+      inputText.setAttribute("type", "text");
+      inputText.setAttribute("id", "tempTextBox");
+      inputText.setAttribute("value", cardTitle.innerText);
+      cardTitle.replaceWith(inputText);
+      inputText.focus();
+
+      inputText.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const inputText = document.getElementById("tempTextBox");
+          const cardID = cardTitle.getAttribute("card-title-id");
+          console.log(cardID);
+          cardTitle.innerText = inputText.value;
+          inputText.replaceWith(cardTitle);
+          dataHandler.changeCardTitleApi(cardID, inputText.value);
+        } else if (e.key === "Escape") {
+          inputText.replaceWith(cardTitle);
+        }
+        document.addEventListener("click", function (e) {
+          if (!inputText.contains(e.target)) {
+            inputText.replaceWith(cardTitle);
+          }
+        });
       });
     };
   },
