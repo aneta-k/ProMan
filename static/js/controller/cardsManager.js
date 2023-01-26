@@ -22,7 +22,9 @@ export let cardsManager = {
         const boardId = clickEvent.target.dataset.boardId;
         const title = clickEvent.target[0].value;
         const status = clickEvent.target[1].value;
-        let newCard = await dataHandler.createNewCard(title, boardId, status, '1');
+        const currentColumn = document.querySelector(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${status}"] .board-column-content`);
+        const cardOrder = currentColumn.childElementCount + 1;
+        let newCard = await dataHandler.createNewCard(title, boardId, status, cardOrder);
         domManager.deleteChildren(`#newFormField`);
         if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
             const cardBuilder = htmlFactory(htmlTemplates.card);
