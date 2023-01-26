@@ -90,6 +90,11 @@ async function submitNewBoard(event) {
     "click",
     showHideButtonHandler
   );
+  domManager.addEventListener(
+      `.board-delete[data-board-id="${board.id}"]`,
+      "click",
+      deleteButtonHandler
+  );
   domManager.deleteChildren(`#newFormField`);
 }
 
