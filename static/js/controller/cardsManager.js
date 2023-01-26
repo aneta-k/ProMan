@@ -16,7 +16,7 @@ export let cardsManager = {
                 deleteButtonHandler
             );
             domManager.addEventListener(
-                `[data-card-id="${card.id}"]`,
+                `[card-title-id="${card.id}"]`,
                 "click",
                 changeCardTitle
             );
@@ -41,7 +41,7 @@ export let cardsManager = {
                 deleteButtonHandler
             );
             domManager.addEventListener(
-                `[data-card-id="${newCard.id}"]`,
+                `[card-title-id="${newCard.id}"]`,
                 "click",
                 changeCardTitle
             );
@@ -57,7 +57,7 @@ function deleteButtonHandler(clickEvent) {
 }
 
 function changeCardTitle(clickEvent) {
-  const cardId = clickEvent.target.getAttribute("data-card-id");
-  const cardTitle = document.querySelector(`[data-card-id="${cardId}"]`);
+  const cardId = clickEvent.target.getAttribute("card-title-id");
+  const cardTitle = document.querySelector(`[card-title-id="${cardId}"]`);
   domManager.changeDomCardTitle(cardTitle);
 }
