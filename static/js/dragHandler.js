@@ -68,7 +68,6 @@ async function handleDrop(e) {
     const oldOrder = page.dragged.dataset.cardOrder;
     const oldStatus = page.dragged.parentElement.parentElement.dataset.columnId;
     const newStatus = dropzone.dataset.columnId;
-    // updateOrderAttributes(dropzone.dataset.boardId);
 
     if (dom.hasClass(dropzone, "card-slot") && page.dragged.getAttribute('data-board-id') === dropzone.dataset.boardId) {
         dataHandler.updateCardStatus(page.dragged.dataset.cardId, newStatus);
