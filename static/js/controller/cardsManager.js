@@ -35,6 +35,7 @@ export let cardsManager = {
                 "click",
                 deleteButtonHandler
             );
+            dragHandler.initDraggable(document.querySelector(`.card[data-card-id="${newCard.id}"]`));
         }
     }
 };

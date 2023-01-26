@@ -65,9 +65,17 @@ function handleDrop(e) {
     e.preventDefault();
     const dropzone = e.currentTarget;
     console.log("Drop of", dropzone);
+    const oldOrder = page.dragged.dataset.cardOrder;
+    const oldStatus = page.dragged.parentElement.parentElement.dataset.columnId;
+    const newStatus = dropzone.dataset.columnId;
 
-    if (dom.hasClass(dropzone, "card-slot") && page.dragged.getAttribute('data-board-id') === dropzone.parentNode.getAttribute('data-board-id')) {
-        dropzone.appendChild(page.dragged);
-        dataHandler.updateCardStatus(page.dragged.getAttribute('data-card-id'), dropzone.parentNode.getAttribute('data-column-id'));
+    if (dom.hasClass(dropzone, "card-slot") && page.dragged.getAttribute('data-board-id') === dropzone.dataset.boardId) {
+        dataHandler.updateCardStatus(page.dragged.dataset.cardId, newStatus);
+        if (e.target.draggable || e.target.parentElement.draggable) {   // div with .card or div with .card-title
+            const passedCard = dom.hasClass(e.target, 'card') ? e.target : e.target.parentElement;
+            dropzone.children[1].insertBefore(page.dragged, passedCard);
+        } else {
+            dropzone.children[1].appendChild(page.dragged);
+        }
     }
 }
