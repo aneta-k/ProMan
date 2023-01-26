@@ -26,6 +26,11 @@ export let boardsManager = {
         "click",
         changeBoardTitle
       );
+      domManager.addEventListener(
+                `.board-delete[data-board-id="${board.id}"]`,
+                "click",
+                deleteButtonHandler
+            );
     }
   },
   initNewBoardButton: function () {
@@ -94,4 +99,11 @@ function changeBoardTitle(clickEvent) {
     `[board-title-id="${boardTitleId}"]`
   );
   domManager.changeDomBoardTitle(boardTitle);
+}
+
+
+function deleteButtonHandler(clickEvent) {
+    let boardId = clickEvent.target.dataset.boardId;
+    dataHandler.deleteBoard(boardId);
+    domManager.deleteElement(`.board[data-board-id="${boardId}"]`);
 }

@@ -42,6 +42,16 @@ def create_board(title):
         , {"title": title})
 
 
+def delete_board(board_id):
+    data_manager.execute(
+        """
+        DELETE FROM boards
+        WHERE id = %(board_id)s
+        ;
+        """
+        , {"board_id": board_id})
+
+
 def get_cards_for_board(board_id):
     matching_cards = data_manager.execute_select(
         """

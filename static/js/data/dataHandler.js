@@ -47,6 +47,9 @@ export let dataHandler = {
     console.log("hi papi " + data);
     return await apiPatch(`/api/board/${boardID}`, data);
   },
+  deleteBoard: async function (boardId) {
+    await apiDelete(`/api/boards/${boardId}/delete`);
+  }
 };
 
 async function apiGet(url) {
