@@ -112,4 +112,4 @@ def change_board_title(board_id, title):
         WHERE id = %(board_id)s
         ;
         """
-        , {"id": board_id, "title": title})
+        , {"board_id": board_id, "title": title})
