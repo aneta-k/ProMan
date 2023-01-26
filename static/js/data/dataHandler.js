@@ -44,16 +44,14 @@ export let dataHandler = {
   },
   changeBoardTitleApi: async function (boardID, title) {
     let data = { id: boardID, title: title };
-    console.log("hi papi " + data);
     return await apiPatch(`/api/board/${boardID}`, data);
   },
   deleteBoard: async function (boardId) {
     await apiDelete(`/api/boards/${boardId}/delete`);
   },
-  changeBoardTitleApi: async function (boardID, title) {
-    let data = { id: boardID, title: title };
-    console.log("hi papi " + data);
-    return await apiPatch(`/api/board/${boardID}`, data);
+  changeCardTitleApi: async function (cardID, title) {
+    let data = { id: cardID, title: title };
+    return await apiPatch(`/api/card/${cardID}`, data);
   },
 };
 

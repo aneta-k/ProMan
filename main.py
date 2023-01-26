@@ -90,6 +90,12 @@ def change_board_title(board_id):
     title = request.json['title']
     return queries.change_board_title(board_id, title)
 
+@app.route("/api/card/<int:card_id>", methods=["PATCH"])
+@json_response
+def change_card_title(card_id):
+    title = request.json['title']
+    return queries.change_card_title(card_id, title)
+
 
 def main():
     app.run(debug=True)
