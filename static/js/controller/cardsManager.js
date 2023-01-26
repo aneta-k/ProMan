@@ -1,7 +1,7 @@
-import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
-import {domManager} from "../view/domManager.js";
-import {dragHandler} from "../dragHandler.js";
+import { dataHandler } from "../data/dataHandler.js";
+import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
+import { domManager } from "../view/domManager.js";
+import { dragHandler } from "../dragHandler.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -14,6 +14,11 @@ export let cardsManager = {
                 `.card-remove[data-card-id="${card.id}"]`,
                 "click",
                 deleteButtonHandler
+            );
+            domManager.addEventListener(
+                `[data-card-id="${card.id}"]`,
+                "click",
+                changeCardTitle
             );
             dragHandler.initDraggable(document.querySelector(`.card[data-card-id="${card.id}"]`));
         }
@@ -35,13 +40,24 @@ export let cardsManager = {
                 "click",
                 deleteButtonHandler
             );
+            domManager.addEventListener(
+                `[data-card-id="${newCard.id}"]`,
+                "click",
+                changeCardTitle
+            );
             dragHandler.initDraggable(document.querySelector(`.card[data-card-id="${newCard.id}"]`));
         }
-    }
+    },
 };
 
 function deleteButtonHandler(clickEvent) {
-    let cardId = clickEvent.target.dataset.cardId;
-    dataHandler.deleteCard(cardId);
-    domManager.deleteElement(`.card[data-card-id="${cardId}"]`);
+  let cardId = clickEvent.target.dataset.cardId;
+  dataHandler.deleteCard(cardId);
+  domManager.deleteElement(`.card[data-card-id="${cardId}"]`);
+}
+
+function changeCardTitle(clickEvent) {
+  const cardId = clickEvent.target.getAttribute("data-card-id");
+  const cardTitle = document.querySelector(`[data-card-id="${cardId}"]`);
+  domManager.changeDomCardTitle(cardTitle);
 }

@@ -49,7 +49,12 @@ export let dataHandler = {
   },
   deleteBoard: async function (boardId) {
     await apiDelete(`/api/boards/${boardId}/delete`);
-  }
+  },
+  changeBoardTitleApi: async function (boardID, title) {
+    let data = { id: boardID, title: title };
+    console.log("hi papi " + data);
+    return await apiPatch(`/api/board/${boardID}`, data);
+  },
 };
 
 async function apiGet(url) {
