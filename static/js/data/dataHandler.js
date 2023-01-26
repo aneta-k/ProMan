@@ -32,6 +32,16 @@ export let dataHandler = {
       statusId: statusId,
     });
   },
+  updateCardsOrder: async function(cardId, newCardOrder, oldCardOrder, boardId, newStatusId, oldStatusId) {
+    let data = {
+      new_card_order: newCardOrder,
+      old_card_order: oldCardOrder,
+      new_status: newStatusId,
+      old_status: oldStatusId,
+      board_id: boardId
+    }
+    await apiPatch(`api/cards/${cardId}/card_order/update`, data);
+  },
   changeBoardTitleApi: async function (boardID, title) {
     let data = { id: boardID, title: title };
     console.log("hi papi " + data);

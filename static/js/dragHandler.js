@@ -73,9 +73,13 @@ function handleDrop(e) {
         dataHandler.updateCardStatus(page.dragged.dataset.cardId, newStatus);
         if (e.target.draggable || e.target.parentElement.draggable) {   // div with .card or div with .card-title
             const passedCard = dom.hasClass(e.target, 'card') ? e.target : e.target.parentElement;
+            const newOrder = passedCard.dataset.cardOrder;
             dropzone.children[1].insertBefore(page.dragged, passedCard);
+            dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
         } else {
+            const newOrder = dropzone.children[1].childElementCount + 1;
             dropzone.children[1].appendChild(page.dragged);
+            dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
         }
     }
 }

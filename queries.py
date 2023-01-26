@@ -104,6 +104,30 @@ def update_card_status(card_id, status_id):
         """
         , {"card_id": card_id, "status_id": status_id})
 
+
+def update_card_order(card_id, new_card_order):
+    data_manager.execute_query(
+        '''
+        UPDATE cards
+        SET card_order = %(new_order)s
+        WHERE id = %(card_id)s;
+        ''',
+        {'card_id': card_id, 'new_order': new_card_order}
+    )
+
+
+def update_cards_order(change, card_order, status_id, board_id, card_id):
+    data_manager.execute_query(
+        '''
+        UPDATE cards
+        SET card_order = card_order + %(change)s
+        WHERE card_order >= %(card_order)s 
+        AND status_id = %(status_id)s AND board_id = %(board_id)s AND id != %(card_id)s;
+        ''',
+        {'change': change, 'card_order': card_order, 'status_id': status_id, 'board_id': board_id, 'card_id': card_id}
+    )
+
+
 def change_board_title(board_id, title):
     data_manager.execute(
         """

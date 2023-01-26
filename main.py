@@ -68,6 +68,15 @@ def update_card_status(card_id):
     return 'ok'
 
 
+@app.route('/api/cards/<int:card_id>/card_order/update', methods=['PATCH'])
+def update_cards_order(card_id):
+    data = request.get_json()
+    queries.update_card_order(card_id, data['new_card_order'])
+    queries.update_cards_order(1, data['new_card_order'], data['new_status'], data['board_id'], card_id)
+    queries.update_cards_order(-1, data['old_card_order'], data['old_status'], data['board_id'], card_id)
+    return 'ok'
+
+
 @app.route("/api/board/<int:board_id>", methods=["PATCH"])
 @json_response
 def change_board_title(board_id):
