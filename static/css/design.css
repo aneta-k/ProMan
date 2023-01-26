@@ -64,9 +64,15 @@ section.board{
     margin: 13px;
 }
 
+.board-delete {
+    float: right;
+    margin: 13px;
+}
+
 .board-columns{
     display: flex;
     flex-wrap: nowrap;
+    width: 100%;
 }
 
 .board-column{
