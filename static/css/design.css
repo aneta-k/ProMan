@@ -121,7 +121,7 @@ section.board{
     background: var(--status-4);
 }
 
-.card-remove{
+.card-archive, .card-remove{
     display: block;
     position: absolute;
     top: 4px;
@@ -130,8 +130,31 @@ section.board{
     cursor: pointer;
 }
 
+.card-archive{
+    right: 20px;
+}
+
+.card-archive:hover::before,
+.card-remove:hover::before{
+    position: absolute;
+    top: -22px;
+    left: -18px;
+    font-size: 10px;
+    background-color: #000;
+    opacity: 0.6;
+    padding: 4px 8px;
+}
+
+.card-archive:hover::before{
+    content: 'Archive';
+}
+
+.card-remove:hover::before{
+    content: 'Delete';
+}
+
 .card-title{
-    padding-right: 16px;
+    padding-right: 32px;
 }
 
 .fas {
