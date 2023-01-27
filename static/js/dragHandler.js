@@ -90,7 +90,7 @@ async function updateOrderAttributes(boardId) {
     const allCardsElements = document.querySelectorAll('.card');
     for (let data of newCardsData){
         for (let card of allCardsElements) {
-            if(data.id == card.dataset.cardId){
+            if(data.id == card.dataset.cardId){     // == on purpose
                 card.dataset.cardOrder = data.card_order;
             }
         }
