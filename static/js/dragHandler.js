@@ -88,11 +88,10 @@ async function handleDrop(e) {
 async function updateOrderAttributes(boardId) {
     const newCardsData = await dataHandler.getCardsByBoardId(boardId);
     const allCardsElements = document.querySelectorAll('.card');
-    for (let data of newCardsData){
-        for (let card of allCardsElements) {
-            if(data.id == card.dataset.cardId){     // == on purpose
-                card.dataset.cardOrder = data.card_order;
-            }
+    for (let card of allCardsElements){
+        const matchingCard = newCardsData.find(x => x.id == card.dataset.cardId);
+        if (matchingCard) {
+            card.dataset.cardOrder = matchingCard.card_order;
         }
     }
 }
