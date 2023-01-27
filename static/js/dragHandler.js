@@ -61,25 +61,39 @@ function handleDragLeave(e) {
     }
 }
 
-function handleDrop(e) {
+async function handleDrop(e) {
     e.preventDefault();
     const dropzone = e.currentTarget;
     console.log("Drop of", dropzone);
     const oldOrder = page.dragged.dataset.cardOrder;
     const oldStatus = page.dragged.parentElement.parentElement.dataset.columnId;
     const newStatus = dropzone.dataset.columnId;
+    // updateOrderAttributes(dropzone.dataset.boardId);
 
     if (dom.hasClass(dropzone, "card-slot") && page.dragged.getAttribute('data-board-id') === dropzone.dataset.boardId) {
         dataHandler.updateCardStatus(page.dragged.dataset.cardId, newStatus);
         if (e.target.draggable || e.target.parentElement.draggable) {   // div with .card or div with .card-title
             const passedCard = dom.hasClass(e.target, 'card') ? e.target : e.target.parentElement;
-            const newOrder = passedCard.dataset.cardOrder;
+            const newOrder = (newStatus === oldStatus && oldOrder < passedCard.dataset.cardOrder) ? passedCard.dataset.cardOrder - 1 : passedCard.dataset.cardOrder;
             dropzone.children[1].insertBefore(page.dragged, passedCard);
-            dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
+            await dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
         } else {
-            const newOrder = dropzone.children[1].childElementCount + 1;
+            const newOrder = newStatus !== oldStatus ? dropzone.children[1].childElementCount + 1 : dropzone.children[1].childElementCount;
             dropzone.children[1].appendChild(page.dragged);
-            dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
+            await dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
+        }
+        updateOrderAttributes(dropzone.dataset.boardId);
+    }
+}
+
+async function updateOrderAttributes(boardId) {
+    const newCardsData = await dataHandler.getCardsByBoardId(boardId);
+    const allCardsElements = document.querySelectorAll('.card');
+    for (let data of newCardsData){
+        for (let card of allCardsElements) {
+            if(data.id == card.dataset.cardId){
+                card.dataset.cardOrder = data.card_order;
+            }
         }
     }
 }

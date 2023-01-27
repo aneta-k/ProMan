@@ -72,8 +72,8 @@ def update_card_status(card_id):
 def update_cards_order(card_id):
     data = request.get_json()
     queries.update_card_order(card_id, data['new_card_order'])
-    queries.update_cards_order(1, data['new_card_order'], data['new_status'], data['board_id'], card_id)
     queries.update_cards_order(-1, data['old_card_order'], data['old_status'], data['board_id'], card_id)
+    queries.update_cards_order(1, data['new_card_order'], data['new_status'], data['board_id'], card_id)
     return 'ok'
 
 
