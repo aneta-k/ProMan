@@ -95,6 +95,11 @@ async function submitNewBoard(event) {
       "click",
       deleteButtonHandler
   );
+  domManager.addEventListener(
+        `.board-add[data-board-id="${board.id}"]`,
+        "click",
+        newCardFormBuilder
+  );
   domManager.deleteChildren(`#newFormField`);
 }
 
