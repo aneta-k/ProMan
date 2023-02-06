@@ -8,7 +8,7 @@ export let userManager = {
           document.getElementById('loginButton').addEventListener('click', showLoginModal);
           document.getElementById('registerButton').addEventListener('click', showRegisterModal);
       } catch (TypeError) {
-        document.getElementById('logoutButton').addEventListener('click', logout);
+          document.getElementById('logoutButton').addEventListener('click', logout);
       }
   }
 };
