@@ -53,6 +53,10 @@ export let dataHandler = {
     let data = { id: cardID, title: title };
     return await apiPatch(`/api/card/${cardID}`, data);
   },
+  changeColumnTitleApi: async function (columnID, title) {
+    let data = { id: columnID, title: title };
+    return await apiPatch(`/api/column/${columnID}`, data);
+  }
 };
 
 async function apiGet(url) {

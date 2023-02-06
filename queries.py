@@ -159,3 +159,14 @@ def change_card_title(card_id, title):
         ;
         """
         , {"card_id": card_id, "title": title})
+
+
+def change_column_title(column_id, title):
+    data_manager.execute(
+        """
+        UPDATE statuses
+        SET title = %(title)s
+        WHERE id = %(column_id)s
+        ;
+        """
+        , {"column_id": column_id, "title": title})

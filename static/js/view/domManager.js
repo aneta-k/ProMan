@@ -97,4 +97,33 @@ export let domManager = {
       });
     };
   },
+  changeDomColumnTitle(columnTitle) {
+    columnTitle.onclick = function () {
+      const inputText = document.createElement("input");
+      inputText.setAttribute("type", "text");
+      inputText.setAttribute("id", "tempTextBox");
+      inputText.setAttribute("value", columnTitle.innerText);
+      columnTitle.replaceWith(inputText);
+      inputText.focus();
+
+      inputText.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const inputText = document.getElementById("tempTextBox");
+          const columnID = columnTitle.getAttribute("data-column-id");
+          console.log(columnID);
+          columnTitle.innerText = inputText.value;
+          inputText.replaceWith(columnTitle);
+          dataHandler.changeColumnTitleApi(columnID, inputText.value);
+        } else if (e.key === "Escape") {
+          inputText.replaceWith(columnTitle);
+        }
+        document.addEventListener("click", function (e) {
+          if (!inputText.contains(e.target)) {
+            inputText.replaceWith(columnTitle);
+          }
+        });
+      });
+    };
+  },
+
 };
