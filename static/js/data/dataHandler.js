@@ -53,6 +53,14 @@ export let dataHandler = {
     let data = { id: cardID, title: title };
     return await apiPatch(`/api/card/${cardID}`, data);
   },
+  login: async function (username, password) {
+    let data = { username: username, password: password };
+    return await apiPost(`/login`, data);
+  },
+  register: async function (username, password) {
+    let data = { username: username, password: password };
+    return await apiPost(`/register`, data);
+  },
 };
 
 async function apiGet(url) {

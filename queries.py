@@ -150,6 +150,7 @@ def change_board_title(board_id, title):
         """
         , {"board_id": board_id, "title": title})
 
+
 def change_card_title(card_id, title):
     data_manager.execute(
         """
@@ -159,3 +160,17 @@ def change_card_title(card_id, title):
         ;
         """
         , {"card_id": card_id, "title": title})
+
+
+def get_user_from_username(username):
+    return data_manager.execute_select('''
+        SELECT *
+        FROM users
+        WHERE username = %(username)s''', {'username': username}, False)
+
+
+def register_new_user(username, password):
+    return data_manager.execute("""
+        INSERT INTO users (username, password)
+        VALUES (%(username)s, %(password)s)
+        """, {'username': username, 'password': password})

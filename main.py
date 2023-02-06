@@ -1,11 +1,16 @@
-from flask import Flask, render_template, url_for, request, jsonify
+import os
+
+from flask import Flask, render_template, url_for, request, jsonify, session
 from dotenv import load_dotenv
+
+import password_handler
 from util import json_response
 import mimetypes
 import queries
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
+app.secret_key = 'codecool'
 load_dotenv()
 
 @app.route("/")
@@ -14,6 +19,39 @@ def index():
     This is a one-pager which shows all the boards and cards
     """
     return render_template('index.html')
+
+
+@app.route('/login', methods=['POST'])
+@json_response
+def login():
+    user_data = queries.get_user_from_username(request.form.get('username'))
+    input_password = request.form.get('password')
+    if user_data is not None:
+        hashed_password = user_data['password']
+        is_matching = password_handler.verify_password(input_password, hashed_password)
+        if is_matching:
+            session['user_id'] = user_data['id']
+            session['username'] = user_data['username']
+            return 200
+        else:
+            return 401
+
+
+@app.route("/register", methods=['POST'])
+@json_response
+def register_user():
+    username_input = request.json['username']
+    hashed_password = password_handler.hash_password(request.json['password'])
+    if queries.get_user_from_username(username_input):
+        return 409
+    else:
+        print(hashed_password)
+        queries.register_new_user(username_input, hashed_password)
+        user_data = queries.get_user_from_username(username_input)
+        print(user_data)
+        session['username'] = username_input
+        session['user_id'] = user_data['id']
+        return 200
 
 
 @app.route("/api/boards")
