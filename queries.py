@@ -90,6 +90,7 @@ def get_statuses(board_id):
     return data_manager.execute_select(
         """
         SELECT * FROM statuses WHERE board_id = %(board_id)s
+        ORDER BY id
         ;
         """
         , {'board_id': board_id}
