@@ -24,8 +24,8 @@ def index():
 @app.route('/login', methods=['POST'])
 @json_response
 def login():
-    user_data = queries.get_user_from_username(request.form.get('username'))
-    input_password = request.form.get('password')
+    user_data = queries.get_user_from_username(request.json['username'])
+    input_password = request.json['password']
     if user_data is not None:
         hashed_password = user_data['password']
         is_matching = password_handler.verify_password(input_password, hashed_password)

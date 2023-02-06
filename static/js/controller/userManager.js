@@ -39,10 +39,10 @@ function showRegisterModal() {
   modalManager.showModal();
 }
 
-function login(event) {
+async function login(event) {
     const username = event.currentTarget[0].value;
     const password = event.currentTarget[1].value;
-    dataHandler.login(username, password);
+    await dataHandler.login(username, password);
     window.location.reload();
 }
 
