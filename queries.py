@@ -68,8 +68,8 @@ def get_cards_for_board(board_id):
 def add_new_card(card, board_id):
     return data_manager.execute_select(
         '''
-        INSERT INTO cards (board_id, status_id, title, card_order)
-        VALUES (%(board_id)s, %(status_id)s, %(title)s, %(card_order)s)
+        INSERT INTO cards (board_id, status_id, title, card_order, archived)
+        VALUES (%(board_id)s, %(status_id)s, %(title)s, %(card_order)s, FALSE)
         RETURNING id;
         ''',
         {'board_id': board_id, 'status_id': card['status_id'], 'title': card['title'], 'card_order': card['card_order']},
