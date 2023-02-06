@@ -5,7 +5,7 @@ import {dragHandler} from "../dragHandler.js";
 
 export let columnManager = {
     loadColumns: async function (boardId) {
-        const statuses = await dataHandler.getStatuses();
+        const statuses = await dataHandler.getStatuses(boardId);
         for (let status of statuses) {
             const columnBuilder = htmlFactory(htmlTemplates.column);
             const content = columnBuilder(status, boardId);

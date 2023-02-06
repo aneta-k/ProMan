@@ -86,12 +86,13 @@ def get_card_by_id(card_id):
     )
 
 
-def get_statuses():
+def get_statuses(board_id):
     return data_manager.execute_select(
         """
-        SELECT * FROM statuses
+        SELECT * FROM statuses WHERE board_id = %(board_id)s
         ;
         """
+        , {'board_id': board_id}
     )
 
 

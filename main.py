@@ -56,10 +56,10 @@ def add_new_card(board_id: int):
     return queries.get_card_by_id(card_id['id'])
 
 
-@app.route("/api/statuses")
+@app.route("/api/boards/<int:board_id>/statuses")
 @json_response
-def get_statuses():
-    return queries.get_statuses()
+def get_statuses(board_id):
+    return queries.get_statuses(board_id)
 
 
 @app.route("/api/cards/<int:card_id>/delete", methods=['DELETE'])
