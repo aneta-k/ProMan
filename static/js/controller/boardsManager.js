@@ -88,7 +88,7 @@ function initBoardEvents(board) {
         showHideButtonHandler
     );
     domManager.addEventListener(
-        `.board-add[data-board-id="${board.id}"]`,
+        `.board-add-card[data-board-id="${board.id}"]`,
         "click",
         newCardFormBuilder
     );

@@ -26,7 +26,9 @@ function boardBuilder(board) {
   return `<section class="board" data-board-id="${board.id}">
                 <div class="board-header">
                     <span class="board-title" board-title-id="${board.id}">${board.title}</span>
-                    <button class="board-add" data-board-id="${board.id}">Add Card</button>
+                    <button class="board-add-card" data-board-id="${board.id}">Add Card</button>
+                    <button class="board-add-col" data-board-id="${board.id}">Add Column</button>
+                    <button class="board-archived" data-board-id="${board.id}"><i class="fa-solid fa-boxes-packing"></i></button>
                     <button class="board-delete delete-board-button" data-board-id="${board.id}"><i class="fas fa-trash-alt"></i></button>
                     <button class="board-toggle toggle-board-button" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                 </div>
