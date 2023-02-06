@@ -7,20 +7,7 @@ export let cardsManager = {
     loadCards: async function (boardId) {
         const cards = await dataHandler.getCardsByBoardId(boardId);
         for (let card of cards) {
-            const cardBuilder = htmlFactory(htmlTemplates.card);
-            const content = cardBuilder(card);
-            domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${card.status_id}"] .board-column-content`, content);
-            domManager.addEventListener(
-                `.card-remove[data-card-id="${card.id}"]`,
-                "click",
-                deleteButtonHandler
-            );
-            domManager.addEventListener(
-                `[card-title-id="${card.id}"]`,
-                "click",
-                changeCardTitle
-            );
-            dragHandler.initDraggable(document.querySelector(`.card[data-card-id="${card.id}"]`));
+            initNewCardEvents(card, boardId);
         }
     },
     addCardHandler: async function (clickEvent) {
@@ -32,20 +19,7 @@ export let cardsManager = {
         let newCard = await dataHandler.createNewCard(title, boardId, status, cardOrder);
         domManager.deleteChildren(`#newFormField`);
         if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
-            const cardBuilder = htmlFactory(htmlTemplates.card);
-            const content = cardBuilder(newCard);
-            domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${newCard.status_id}"] .board-column-content`, content);
-            domManager.addEventListener(
-                `.card-remove[data-card-id="${newCard.id}"]`,
-                "click",
-                deleteButtonHandler
-            );
-            domManager.addEventListener(
-                `[card-title-id="${newCard.id}"]`,
-                "click",
-                changeCardTitle
-            );
-            dragHandler.initDraggable(document.querySelector(`.card[data-card-id="${newCard.id}"]`));
+            initNewCardEvents(newCard, boardId);
         }
     },
 };
@@ -60,4 +34,21 @@ function changeCardTitle(clickEvent) {
   const cardId = clickEvent.target.getAttribute("card-title-id");
   const cardTitle = document.querySelector(`[card-title-id="${cardId}"]`);
   domManager.changeDomCardTitle(cardTitle);
+}
+
+function initNewCardEvents(card, boardId) {
+    const cardBuilder = htmlFactory(htmlTemplates.card);
+    const content = cardBuilder(card);
+    domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${card.status_id}"] .board-column-content`, content);
+    domManager.addEventListener(
+        `.card-remove[data-card-id="${card.id}"]`,
+        "click",
+        deleteButtonHandler
+    );
+    domManager.addEventListener(
+        `[card-title-id="${card.id}"]`,
+        "click",
+        changeCardTitle
+    );
+    dragHandler.initDraggable(document.querySelector(`.card[data-card-id="${card.id}"]`));
 }

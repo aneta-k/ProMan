@@ -32,14 +32,7 @@ export let dataHandler = {
       statusId: statusId,
     });
   },
-  updateCardsOrder: async function(cardId, newCardOrder, oldCardOrder, boardId, newStatusId, oldStatusId) {
-    let data = {
-      new_card_order: newCardOrder,
-      old_card_order: oldCardOrder,
-      new_status: newStatusId,
-      old_status: oldStatusId,
-      board_id: boardId
-    }
+  updateCardsOrder: async function(cardId, data) {
     await apiPatch(`api/cards/${cardId}/card_order/update`, data);
   },
   changeBoardTitleApi: async function (boardID, title) {
@@ -71,7 +64,6 @@ async function apiPost(url, payload) {
     body: JSON.stringify(payload),
   });
   if (response.ok) {
-    // return console.log('ok')
     return await response.json();
   }
 }

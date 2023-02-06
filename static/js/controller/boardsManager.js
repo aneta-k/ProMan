@@ -8,29 +8,7 @@ export let boardsManager = {
   loadBoards: async function () {
     const boards = await dataHandler.getBoards();
     for (let board of boards) {
-      const boardBuilder = htmlFactory(htmlTemplates.board);
-      const content = boardBuilder(board);
-      domManager.addChild("#root", content);
-      domManager.addEventListener(
-        `.toggle-board-button[data-board-id="${board.id}"]`,
-        "click",
-        showHideButtonHandler
-      );
-      domManager.addEventListener(
-        `.board-add[data-board-id="${board.id}"]`,
-        "click",
-        newCardFormBuilder
-      );
-      domManager.addEventListener(
-        `[board-title-id="${board.id}"]`,
-        "click",
-        changeBoardTitle
-      );
-      domManager.addEventListener(
-                `.board-delete[data-board-id="${board.id}"]`,
-                "click",
-                deleteButtonHandler
-            );
+      initBoardEvents(board);
     }
   },
   initNewBoardButton: function () {
@@ -82,24 +60,7 @@ function addNewBoard() {
 async function submitNewBoard(event) {
   const title = event.currentTarget[0].value;
   let board = (await dataHandler.createNewBoard(title))[0];
-  const boardBuilder = htmlFactory(htmlTemplates.board);
-  const content = boardBuilder(board);
-  domManager.addChild("#root", content);
-  domManager.addEventListener(
-    `.toggle-board-button[data-board-id="${board.id}"]`,
-    "click",
-    showHideButtonHandler
-  );
-  domManager.addEventListener(
-      `.board-delete[data-board-id="${board.id}"]`,
-      "click",
-      deleteButtonHandler
-  );
-  domManager.addEventListener(
-        `.board-add[data-board-id="${board.id}"]`,
-        "click",
-        newCardFormBuilder
-  );
+  initBoardEvents(board);
   domManager.deleteChildren(`#newFormField`);
 }
 
@@ -111,9 +72,34 @@ function changeBoardTitle(clickEvent) {
   domManager.changeDomBoardTitle(boardTitle);
 }
 
-
 function deleteButtonHandler(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     dataHandler.deleteBoard(boardId);
     domManager.deleteElement(`.board[data-board-id="${boardId}"]`);
+}
+
+function initBoardEvents(board) {
+    const boardBuilder = htmlFactory(htmlTemplates.board);
+    const content = boardBuilder(board);
+    domManager.addChild("#root", content);
+    domManager.addEventListener(
+        `.toggle-board-button[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+    );
+    domManager.addEventListener(
+        `.board-add[data-board-id="${board.id}"]`,
+        "click",
+        newCardFormBuilder
+    );
+    domManager.addEventListener(
+        `[board-title-id="${board.id}"]`,
+        "click",
+        changeBoardTitle
+    );
+    domManager.addEventListener(
+        `.board-delete[data-board-id="${board.id}"]`,
+        "click",
+        deleteButtonHandler
+    );
 }
