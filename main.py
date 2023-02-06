@@ -141,6 +141,11 @@ def change_card_title(card_id):
     title = request.json['title']
     return queries.change_card_title(card_id, title)
 
+@app.route("/api/column/<int:column_id>", methods=["PATCH"])
+@json_response
+def change_column_title(column_id):
+    title = request.json['title']
+    return queries.change_column_title(column_id, title)
 
 def main():
     app.run(debug=True)

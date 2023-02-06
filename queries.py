@@ -90,6 +90,7 @@ def get_statuses(board_id):
     return data_manager.execute_select(
         """
         SELECT * FROM statuses WHERE board_id = %(board_id)s
+        ORDER BY id
         ;
         """
         , {'board_id': board_id}
@@ -174,3 +175,15 @@ def register_new_user(username, password):
         INSERT INTO users (username, password)
         VALUES (%(username)s, %(password)s)
         """, {'username': username, 'password': password})
+
+
+
+def change_column_title(column_id, title):
+    data_manager.execute(
+        """
+        UPDATE statuses
+        SET title = %(title)s
+        WHERE id = %(column_id)s
+        ;
+        """
+        , {"column_id": column_id, "title": title})

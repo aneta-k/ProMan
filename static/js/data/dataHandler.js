@@ -64,6 +64,10 @@ export let dataHandler = {
   logout: async function () {
     return await apiPost(`/logout`);
   },
+  changeColumnTitleApi: async function (columnID, title) {
+    let data = { id: columnID, title: title };
+    return await apiPatch(`/api/column/${columnID}`, data);
+  }
 };
 
 async function apiGet(url) {

@@ -14,6 +14,28 @@ export let columnManager = {
         let columns = document.getElementsByClassName('card-slot');
         for (let column of columns) {
             dragHandler.initDropzone(column);
+        };
+        let columnTitles = await document.getElementsByClassName('board-column-title');
+        for (let columnTitle of columnTitles) {
+            domManager.addEventListener(
+                `[data-column-id="${columnTitle.attributes[1].nodeValue}"]`,
+                "click",
+                changeColumnTitle
+              );
         }
     },
 };
+
+
+function changeColumnTitle(clickEvent) {
+   
+    const columnTitleId = clickEvent.target.getAttribute("data-column-id");
+    console.log(columnTitleId); 
+    const columnTitle = document.querySelector(
+      `[data-column-id="${columnTitleId}"]`
+    );
+    console.log(columnTitle);
+    
+    domManager.changeDomColumnTitle(columnTitle);
+  }
+  
