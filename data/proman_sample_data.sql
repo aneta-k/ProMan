@@ -17,6 +17,7 @@ SET default_with_oids = false;
 --- drop tables
 ---
 
+DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS statuses CASCADE;
 DROP TABLE IF EXISTS boards CASCADE;
 DROP TABLE IF EXISTS cards;
@@ -24,6 +25,12 @@ DROP TABLE IF EXISTS cards;
 ---
 --- create tables
 ---
+
+CREATE TABLE users (
+    id       SERIAL PRIMARY KEY     NOT NULL,
+    username VARCHAR(200) UNIQUE    NOT NULL,
+    password varchar(200)           NOT NULL
+);
 
 CREATE TABLE statuses (
     id       SERIAL PRIMARY KEY     NOT NULL,
