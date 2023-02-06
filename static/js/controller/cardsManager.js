@@ -5,7 +5,7 @@ import { dragHandler } from "../dragHandler.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
-        const cards = await dataHandler.getCardsByBoardId(boardId);
+        const cards = await dataHandler.getCardsByBoardId(boardId, false);
         for (let card of cards) {
             initNewCardEvents(card, boardId);
         }
@@ -24,7 +24,7 @@ export let cardsManager = {
 
 function archiveButtonHandler(clickEvent) {
     const cardId = clickEvent.target.dataset.cardId;
-    dataHandler.updateCardArchivedStatus(cardId);
+    dataHandler.updateCardArchivedStatus(cardId, true);
     updateCardOrderAfterCardDelete(clickEvent);
     domManager.deleteElement(`.card[data-card-id="${cardId}"]`);
 }
