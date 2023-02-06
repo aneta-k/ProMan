@@ -35,6 +35,9 @@ export let dataHandler = {
   updateCardsOrder: async function(cardId, data) {
     await apiPatch(`api/cards/${cardId}/card_order/update`, data);
   },
+  updateCardOrderAfterCardDelete: async function (cardData) {
+    await apiPatch(`/api/cards/card_order_after_delete/update`, cardData);
+  },
   changeBoardTitleApi: async function (boardID, title) {
     let data = { id: boardID, title: title };
     return await apiPatch(`/api/board/${boardID}`, data);
@@ -45,6 +48,9 @@ export let dataHandler = {
   changeCardTitleApi: async function (cardID, title) {
     let data = { id: cardID, title: title };
     return await apiPatch(`/api/card/${cardID}`, data);
+  },
+  updateCardArchivedStatus: async function (cardId) {
+    return await apiPatch();
   },
 };
 

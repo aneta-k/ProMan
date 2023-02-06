@@ -84,6 +84,13 @@ def update_cards_order(card_id):
     return 'ok'
 
 
+@app.route('/api/cards/card_order_after_delete/update', methods=['PATCH'])
+def update_cards_order_after_delete():
+    data = request.get_json()
+    queries.update_cards_order(-1, data['card_order'], data['status_id'], data['board_id'], data['card_id'])
+    return 'ok'
+
+
 @app.route("/api/board/<int:board_id>", methods=["PATCH"])
 @json_response
 def change_board_title(board_id):

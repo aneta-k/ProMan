@@ -18,16 +18,32 @@ export let cardsManager = {
         const cardOrder = currentColumn.childElementCount + 1;
         let newCard = await dataHandler.createNewCard(title, boardId, status, cardOrder);
         domManager.deleteChildren(`#newFormField`);
-        if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
-            initNewCardEvents(newCard, boardId);
-        }
+        initNewCardEvents(newCard, boardId);
     },
 };
+
+function archiveButtonHandler(clickEvent) {
+    const cardId = clickEvent.target.dataset.cardId;
+    dataHandler.updateCardArchivedStatus(cardId);
+    updateCardOrderAfterCardDelete(clickEvent);
+    domManager.deleteElement(`.card[data-card-id="${cardId}"]`);
+}
 
 function deleteButtonHandler(clickEvent) {
   let cardId = clickEvent.target.dataset.cardId;
   dataHandler.deleteCard(cardId);
+  updateCardOrderAfterCardDelete(clickEvent);
   domManager.deleteElement(`.card[data-card-id="${cardId}"]`);
+}
+
+async function updateCardOrderAfterCardDelete(clickEvent) {
+    const cardId = clickEvent.target.dataset.cardId;
+    const cardOrder = clickEvent.target.parentElement.dataset.cardOrder;
+    const boardId = clickEvent.target.parentElement.dataset.boardId;
+    const statusId = clickEvent.target.closest('.card-slot').dataset.columnId;
+    const cardData = {card_id: cardId, card_order: cardOrder, status_id: statusId, board_id: boardId};
+    await dataHandler.updateCardOrderAfterCardDelete(cardData);
+    dragHandler.updateOrderAttributes(boardId);
 }
 
 function changeCardTitle(clickEvent) {
@@ -40,6 +56,11 @@ function initNewCardEvents(card, boardId) {
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card);
     domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${card.status_id}"] .board-column-content`, content);
+    domManager.addEventListener(
+        `.card-archive[data-card-id="${card.id}"]`,
+        "click",
+        archiveButtonHandler
+    );
     domManager.addEventListener(
         `.card-remove[data-card-id="${card.id}"]`,
         "click",

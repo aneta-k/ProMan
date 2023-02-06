@@ -30,6 +30,7 @@ button{
     font-size: 14px;
     font-family: sans-serif;
     padding: 4px 10px;
+    cursor: pointer;
 }
 
 .board-container{

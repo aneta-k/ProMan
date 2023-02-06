@@ -45,6 +45,10 @@ async function newCardFormBuilder(clickEvent) {
     option.text = status.title;
     select.appendChild(option);
   }
+
+  if (! domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+      document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
+  }
   domManager.addEventListener(`#newFormField form`, "submit", cardsManager.addCardHandler);
 }
 
