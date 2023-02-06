@@ -48,10 +48,17 @@ def register_user():
         print(hashed_password)
         queries.register_new_user(username_input, hashed_password)
         user_data = queries.get_user_from_username(username_input)
-        print(user_data)
         session['username'] = username_input
         session['user_id'] = user_data['id']
         return 200
+
+
+@app.route('/logout', methods=['POST'])
+@json_response
+def logout():
+    session.pop('username', None)
+    session.pop('user_id', None)
+    return 200
 
 
 @app.route("/api/boards")

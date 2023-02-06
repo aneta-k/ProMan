@@ -4,8 +4,12 @@ import {domManager} from "../view/domManager.js";
 
 export let userManager = {
   init: function () {
-    document.getElementById('loginButton').addEventListener('click', showLoginModal);
-    document.getElementById('registerButton').addEventListener('click', showRegisterModal);
+      try {
+          document.getElementById('loginButton').addEventListener('click', showLoginModal);
+          document.getElementById('registerButton').addEventListener('click', showRegisterModal);
+      } catch (TypeError) {
+        document.getElementById('logoutButton').addEventListener('click', logout);
+      }
   }
 };
 
@@ -46,5 +50,10 @@ async function register(event) {
     const username = event.currentTarget[0].value;
     const password = event.currentTarget[1].value;
     await dataHandler.register(username, password);
+    window.location.reload();
+}
+
+async function logout() {
+    await dataHandler.logout();
     window.location.reload();
 }

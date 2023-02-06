@@ -61,6 +61,9 @@ export let dataHandler = {
     let data = { username: username, password: password };
     return await apiPost(`/register`, data);
   },
+  logout: async function () {
+    return await apiPost(`/logout`);
+  },
 };
 
 async function apiGet(url) {
