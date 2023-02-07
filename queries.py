@@ -53,14 +53,14 @@ def delete_board(board_id):
         , {"board_id": board_id})
 
 
-def get_cards_for_board(board_id):
+def get_cards_for_board(board_id, archived_status):
     matching_cards = data_manager.execute_select(
         """
         SELECT * FROM cards
-        WHERE cards.board_id = %(board_id)s
+        WHERE cards.board_id = %(board_id)s AND cards.archived = %(archived_status)s
         ORDER BY card_order;
         """
-        , {"board_id": board_id})
+        , {"board_id": board_id, "archived_status": archived_status})
 
     return matching_cards
 
@@ -135,9 +135,20 @@ def update_cards_order(change, card_order, status_id, board_id, card_id):
         UPDATE cards
         SET card_order = card_order + %(change)s
         WHERE card_order >= %(card_order)s 
-        AND status_id = %(status_id)s AND board_id = %(board_id)s AND id != %(card_id)s;
+        AND status_id = %(status_id)s AND board_id = %(board_id)s AND id != %(card_id)s AND archived = false;
         ''',
         {'change': change, 'card_order': card_order, 'status_id': status_id, 'board_id': board_id, 'card_id': card_id}
+    )
+
+
+def update_card_archived_status(card_id, new_archived_status):
+    data_manager.execute_query(
+        '''
+        UPDATE cards
+        SET archived = %(new_archived_status)s
+        WHERE id = %(card_id)s
+        ''',
+        {'new_archived_status': new_archived_status, 'card_id': card_id}
     )
 
 

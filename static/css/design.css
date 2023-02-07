@@ -4,6 +4,8 @@
     --status-2: #594300;
     --status-3: #525900;
     --status-4: #085900;
+    --status-5: #226161;
+    --status-6: #272a82;
 }
 
 body{
@@ -29,6 +31,7 @@ button{
     font-size: 14px;
     font-family: sans-serif;
     padding: 4px 10px;
+    cursor: pointer;
 }
 
 .board-container{
@@ -54,7 +57,7 @@ section.board{
     display: inline-block;
     font-size: 20px;
 }
-.board-title, .board-add, .board-toggle{
+.board-title, .board-add-card, .board-toggle, .board-add-col, .board-archived{
     display: inline-block;
 }
 
@@ -74,7 +77,17 @@ section.board{
     width: 100%;
 }
 
-.board-column{
+.board-archived-container{
+    background: #00000040;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.board-columns-archive{
+    display: flex;
+    width: 25%;
+}
+
+.board-column, .board-column-archive{
     padding: 10px;
     flex: 1;
 }
@@ -120,7 +133,19 @@ section.board{
     background: var(--status-4);
 }
 
-.card-archive, .card-remove{
+.board-column:nth-of-type(5) .card{
+    background: var(--status-5);
+}
+
+.board-column:nth-of-type(6) .card{
+    background: var(--status-6);
+}
+
+.board-archived-container .card{
+    background: #4f1e6e;
+}
+
+.card-archive, .card-unarchive, .card-remove{
     display: block;
     position: absolute;
     top: 4px;
@@ -129,11 +154,12 @@ section.board{
     cursor: pointer;
 }
 
-.card-archive{
+.card-archive, .card-unarchive{
     right: 20px;
 }
 
 .card-archive:hover::before,
+.card-unarchive:hover::before,
 .card-remove:hover::before{
     position: absolute;
     top: -22px;
@@ -146,6 +172,10 @@ section.board{
 
 .card-archive:hover::before{
     content: 'Archive';
+}
+
+.card-unarchive:hover::before{
+    content: 'Unarchive';
 }
 
 .card-remove:hover::before{

@@ -12,6 +12,16 @@ export const dragHandler = {
         dropzone.addEventListener("dragleave", handleDragLeave);
         dropzone.addEventListener("drop", handleDrop);
      },
+    updateOrderAttributes: async function (boardId) {
+        const newCardsData = await dataHandler.getCardsByBoardId(boardId, false);
+        const allCardsElements = document.querySelectorAll('.card');
+        for (let card of allCardsElements){
+            const matchingCard = newCardsData.find(x => x.id === Number(card.dataset.cardId));
+            if (matchingCard) {
+                card.dataset.cardOrder = matchingCard.card_order;
+            }
+        }
+    }
 };
 
 const dom = {
@@ -75,23 +85,12 @@ async function handleDrop(e) {
             const passedCard = dom.hasClass(e.target, 'card') ? e.target : e.target.parentElement;
             const newOrder = (newStatus === oldStatus && oldOrder < passedCard.dataset.cardOrder) ? passedCard.dataset.cardOrder - 1 : passedCard.dataset.cardOrder;
             dropzone.children[1].insertBefore(page.dragged, passedCard);
-            await dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
+            await dataHandler.updateCardsOrder(page.dragged.dataset.cardId, {new_card_order:newOrder, old_card_order:oldOrder, board_id:dropzone.dataset.boardId, new_status:newStatus, old_status:oldStatus});
         } else {
             const newOrder = newStatus !== oldStatus ? dropzone.children[1].childElementCount + 1 : dropzone.children[1].childElementCount;
             dropzone.children[1].appendChild(page.dragged);
-            await dataHandler.updateCardsOrder(page.dragged.dataset.cardId, newOrder, oldOrder, dropzone.dataset.boardId, newStatus, oldStatus);
+            await dataHandler.updateCardsOrder(page.dragged.dataset.cardId, {new_card_order:newOrder, old_card_order:oldOrder, board_id:dropzone.dataset.boardId, new_status:newStatus, old_status:oldStatus});
         }
-        updateOrderAttributes(dropzone.dataset.boardId);
-    }
-}
-
-async function updateOrderAttributes(boardId) {
-    const newCardsData = await dataHandler.getCardsByBoardId(boardId);
-    const allCardsElements = document.querySelectorAll('.card');
-    for (let card of allCardsElements){
-        const matchingCard = newCardsData.find(x => x.id == card.dataset.cardId);
-        if (matchingCard) {
-            card.dataset.cardOrder = matchingCard.card_order;
-        }
+        dragHandler.updateOrderAttributes(dropzone.dataset.boardId);
     }
 }
