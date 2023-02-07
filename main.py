@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, url_for, request, jsonify, session
+from flask import Flask, render_template, url_for, request, jsonify, session, make_response
 from dotenv import load_dotenv
 
 import password_handler
@@ -18,7 +18,9 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    return render_template('index.html')
+    response = make_response(render_template('index.html'))
+    response.set_cookie('logged_in', str('username' in session))
+    return response
 
 
 @app.route('/login', methods=['POST'])
