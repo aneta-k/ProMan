@@ -13,15 +13,15 @@ export const dragHandler = {
         dropzone.addEventListener("drop", handleDrop);
      },
     updateOrderAttributes: async function (boardId) {
-    const newCardsData = await dataHandler.getCardsByBoardId(boardId);
-    const allCardsElements = document.querySelectorAll('.card');
-    for (let card of allCardsElements){
-        const matchingCard = newCardsData.find(x => x.id === Number(card.dataset.cardId));
-        if (matchingCard) {
-            card.dataset.cardOrder = matchingCard.card_order;
+        const newCardsData = await dataHandler.getCardsByBoardId(boardId, false);
+        const allCardsElements = document.querySelectorAll('.card');
+        for (let card of allCardsElements){
+            const matchingCard = newCardsData.find(x => x.id === Number(card.dataset.cardId));
+            if (matchingCard) {
+                card.dataset.cardOrder = matchingCard.card_order;
+            }
         }
     }
-}
 };
 
 const dom = {
@@ -94,14 +94,3 @@ async function handleDrop(e) {
         dragHandler.updateOrderAttributes(dropzone.dataset.boardId);
     }
 }
-
-// async function updateOrderAttributes(boardId) {
-//     const newCardsData = await dataHandler.getCardsByBoardId(boardId);
-//     const allCardsElements = document.querySelectorAll('.card');
-//     for (let card of allCardsElements){
-//         const matchingCard = newCardsData.find(x => x.id === Number(card.dataset.cardId));
-//         if (matchingCard) {
-//             card.dataset.cardOrder = matchingCard.card_order;
-//         }
-//     }
-// }

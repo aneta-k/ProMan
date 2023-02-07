@@ -22,6 +22,12 @@ async function showHideButtonHandler(clickEvent) {
     document.querySelector(`.board[data-board-id="${boardId}"] .board-header .board-toggle i`).classList.toggle('fa-chevron-up');
     if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
         domManager.deleteChildren(`.board[data-board-id="${boardId}"] .board-columns`);
+        if (domManager.hasChildren(`.board-archived-container[data-board-id="${boardId}"]`)) {
+            domManager.deleteChildren(`.board-archived-container[data-board-id="${boardId}"]`);
+        }
+        if (document.querySelector(`form[data-board-id="${boardId}"]`)) {
+            domManager.deleteChildren(`#newFormField`);
+        }
     } else {
         await columnManager.loadColumns(boardId);
         await cardsManager.loadCards(boardId);
@@ -68,6 +74,27 @@ async function submitNewBoard(event) {
   domManager.deleteChildren(`#newFormField`);
 }
 
+async function boardArchiveButtonHandler(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    if (domManager.hasChildren(`.board-archived-container[data-board-id="${boardId}"]`)) {
+        domManager.deleteChildren(`.board-archived-container[data-board-id="${boardId}"]`);
+    } else {
+        document.querySelector(`.board-archived-container[data-board-id="${boardId}"]`).innerHTML = `
+        <div class="board-columns-archive">
+            <div class="board-column-archive">
+                <div class="board-column-title">archived</div>
+                <div class="board-column-content" data-board-id="${boardId}"></div>
+            </div> 
+        </div>`;
+
+        if (! domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+            document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
+        }
+
+        await cardsManager.loadArchivedCards(boardId);
+    }
+}
+
 function changeBoardTitle(clickEvent) {
   const boardTitleId = clickEvent.target.getAttribute("board-title-id");
   const boardTitle = document.querySelector(
@@ -95,6 +122,11 @@ function initBoardEvents(board) {
         `.board-add-card[data-board-id="${board.id}"]`,
         "click",
         newCardFormBuilder
+    );
+    domManager.addEventListener(
+        `.board-archived[data-board-id="${board.id}"]`,
+        "click",
+        boardArchiveButtonHandler
     );
     domManager.addEventListener(
         `[board-title-id="${board.id}"]`,

@@ -50,6 +50,12 @@ def get_cards_for_board(board_id: int, archived_status: bool):
     return queries.get_cards_for_board(board_id, archived_status)
 
 
+@app.route('/api/cards/<int:card_id>')
+@json_response
+def get_card(card_id):
+    return queries.get_card_by_id(card_id)
+
+
 @app.route('/api/boards/<int:board_id>/cards/add_new', methods=['POST'])
 def add_new_card(board_id: int):
     card = request.get_json()
@@ -95,7 +101,9 @@ def update_cards_order_after_delete():
 @app.route('/api/cards/<int:card_id>/archived_status/update', methods=['PATCH'])
 def update_card_archived_status(card_id):
     new_archived_status = request.get_json()['new_status']
+    new_card_order = request.get_json()['new_order']
     queries.update_card_archived_status(card_id, new_archived_status)
+    queries.update_card_order(card_id, new_card_order)
     return 'ok'
 
 

@@ -2,12 +2,14 @@ export const htmlTemplates = {
   board: 1,
   card: 2,
   column: 3,
+  archive: 4,
 };
 
 export const builderFunctions = {
   [htmlTemplates.board]: boardBuilder,
   [htmlTemplates.card]: cardBuilder,
   [htmlTemplates.column]: columnBuilder,
+  [htmlTemplates.archive]: archiveBuilder,
 };
 
 export function htmlFactory(template) {
@@ -33,6 +35,7 @@ function boardBuilder(board) {
                     <button class="board-toggle toggle-board-button" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                 </div>
                 <div class="board-columns" data-board-id="${board.id}"></div>
+                <div class="board-archived-container" data-board-id="${board.id}"></div>
             </section>`;
 }
 
@@ -48,5 +51,13 @@ function columnBuilder(column, boardId) {
     return `<div class="board-column card-slot" data-column-id="${column.id}" data-board-id="${boardId}">
                 <div class="board-column-title">${column.title}</div>
                 <div class="board-column-content"></div>
+            </div>`;
+}
+
+function archiveBuilder(card) {
+    return `<div class="card" data-card-id="${card.id}" data-column-id="${card.status_id}" data-board-id="${card.board_id}">
+                <div class="card-unarchive" data-card-id="${card.id}"><i class="fas fa-arrow-turn-up"></i></i></div>
+                <div class="card-remove" data-card-id="${card.id}"><i class="fas fa-trash-alt"></i></div>
+                <div class="card-title" card-title-id="${card.id}">${card.title}</div>
             </div>`;
 }

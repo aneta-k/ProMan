@@ -15,7 +15,7 @@ export let dataHandler = {
     return await apiGet(`/api/boards/${boardId}/cards/archived=${archivedStatus}`);
   },
   getCard: async function (cardId) {
-    // the card is retrieved and then the callback function is called with the card
+    return await apiGet(`/api/cards/${cardId}`);
   },
   createNewBoard: async function (boardTitle) {
     return await apiPost(`/api/boards/create`, { title: boardTitle });
@@ -49,8 +49,9 @@ export let dataHandler = {
     let data = { id: cardID, title: title };
     return await apiPatch(`/api/card/${cardID}`, data);
   },
-  updateCardArchivedStatus: async function (cardId, newStatus) {
-    await apiPatch(`/api/cards/${cardId}/archived_status/update`, {new_status: newStatus});
+  updateCardArchivedStatus: async function (cardId, newStatus, newOrder) {
+    let data = {new_status: newStatus, new_order: newOrder};
+    await apiPatch(`/api/cards/${cardId}/archived_status/update`, data);
   },
 };
 
