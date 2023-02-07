@@ -86,6 +86,7 @@ async function submitNewBoard(event) {
   if (userManager.isLoggedIn()) {privateBoard = event.currentTarget[1].value}
   let board = (await dataHandler.createNewBoard(title, privateBoard))[0];
   initBoardEvents(board);
+  await columnManager.addDefaultColumns(board.id);
 }
 
 async function boardArchiveButtonHandler(clickEvent) {

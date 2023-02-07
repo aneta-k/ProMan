@@ -105,6 +105,17 @@ def get_card_by_id(card_id):
     )
 
 
+def add_new_column(board_id, title):
+    return data_manager.execute_select(
+        '''
+        INSERT INTO statuses (board_id, title)
+        VALUES (%(board_id)s, %(title)s)
+        RETURNING *;
+        ''',
+        {'board_id': board_id, 'title': title}, False
+    )
+
+
 def get_statuses(board_id):
     return data_manager.execute_select(
         """

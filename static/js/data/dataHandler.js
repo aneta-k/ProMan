@@ -24,6 +24,9 @@ export let dataHandler = {
     let card = { status_id: statusId, title: cardTitle, card_order: cardOrder };
     return await apiPost(`/api/boards/${boardId}/cards/add_new`, card);
   },
+  createNewColumn: async function (boardId, columnTitle) {
+    return await apiPost(`/api/boards/${boardId}/statuses/create`, {title: columnTitle});
+  },
   deleteCard: async function (cardId) {
     await apiDelete(`/api/cards/${cardId}/delete`);
   },

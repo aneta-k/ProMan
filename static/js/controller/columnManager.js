@@ -19,6 +19,11 @@ export let columnManager = {
             );
         }
     },
+    addDefaultColumns: async function (boardId) {
+        for (let title of ['new', 'in progress', 'testing', 'done']) {
+            await dataHandler.createNewColumn(boardId, title);
+        }
+    },
 };
 
   
