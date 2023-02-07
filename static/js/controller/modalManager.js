@@ -13,5 +13,8 @@ export let modalManager = {
     },
     closeModal: function () {
     document.getElementById('modal').style.display = 'none';
-}
+    },
+    showModalWarning: function () {
+    document.getElementById('modalWarning').style.display = 'block';
+    }
 };
