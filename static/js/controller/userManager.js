@@ -10,7 +10,10 @@ export let userManager = {
       } catch (TypeError) {
           document.getElementById('logoutButton').addEventListener('click', logout);
       }
-  }
+  },
+    isLoggedIn: function () {
+      return (document.cookie.match('(^|;)\\s*' + 'logged_in' + '\\s*=\\s*([^;]+)')[2].toLowerCase() === 'true');
+    }
 };
 
 function showLoginModal() {

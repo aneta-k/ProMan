@@ -76,6 +76,10 @@ def get_boards():
 @json_response
 def create_board():
     title = request.json['title']
+    private_board = request.json['privateBoard']
+    if private_board == 'on':
+        user_id = session['user_id']
+        return queries.create_private_board(title, user_id)
     return queries.create_board(title)
 
 

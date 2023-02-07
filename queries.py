@@ -198,3 +198,14 @@ def change_column_title(column_id, title):
         ;
         """
         , {"column_id": column_id, "title": title})
+
+
+def create_private_board(title, user_id):
+    return data_manager.execute_select(
+        """
+        INSERT INTO boards (title, user_id)
+        VALUES (%(title)s, %(user_id)s)
+        RETURNING *
+        ;
+        """
+        , {"title": title, "user_id": user_id})
