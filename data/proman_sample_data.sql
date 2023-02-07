@@ -40,6 +40,7 @@ CREATE TABLE statuses (
 
 CREATE TABLE boards (
     id          SERIAL PRIMARY KEY  NOT NULL,
+    user_id     INTEGER                     ,
     title       VARCHAR(200)        NOT NULL
 );
 
@@ -89,6 +90,9 @@ INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 8, 'done card 1', 2, false
 
 ALTER TABLE ONLY statuses
     ADD CONSTRAINT fk_statuses_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY boards
+    ADD CONSTRAINT fk_boards_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;

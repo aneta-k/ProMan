@@ -10,9 +10,8 @@ export let modalManager = {
     showModal: function () {
         let modal = document.getElementById('modal');
         modal.style.display = 'block';
-    }
-};
-
-function closeModal() {
+    },
+    closeModal: function () {
     document.getElementById('modal').style.display = 'none';
 }
+};
