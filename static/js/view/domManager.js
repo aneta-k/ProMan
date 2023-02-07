@@ -109,7 +109,7 @@ export let domManager = {
       inputText.addEventListener("keydown", function (e) {
         if (e.key === "Enter") {
           const inputText = document.getElementById("tempTextBox");
-          const columnID = columnTitle.getAttribute("data-column-id");
+          const columnID = columnTitle.getAttribute("data-column-title-id");
           console.log(columnID);
           columnTitle.innerText = inputText.value;
           inputText.replaceWith(columnTitle);

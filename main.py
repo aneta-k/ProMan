@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, url_for, request, jsonify, session
+from flask import Flask, render_template, url_for, request, jsonify, session, make_response
 from dotenv import load_dotenv
 
 import password_handler
@@ -18,7 +18,9 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    return render_template('index.html')
+    response = make_response(render_template('index.html'))
+    response.set_cookie('logged_in', str('username' in session))
+    return response
 
 
 @app.route('/login', methods=['POST'])
@@ -84,14 +86,21 @@ def delete_board(board_id):
     return 200
 
 
-@app.route("/api/boards/<int:board_id>/cards/")
+@app.route("/api/boards/<int:board_id>/cards/archived=<archived_status>")
 @json_response
-def get_cards_for_board(board_id: int):
+def get_cards_for_board(board_id: int, archived_status: bool):
     """
     All cards that belongs to a board
     :param board_id: id of the parent board
+    :param archived_status: archived or not cards
     """
-    return queries.get_cards_for_board(board_id)
+    return queries.get_cards_for_board(board_id, archived_status)
+
+
+@app.route('/api/cards/<int:card_id>')
+@json_response
+def get_card(card_id):
+    return queries.get_card_by_id(card_id)
 
 
 @app.route('/api/boards/<int:board_id>/cards/add_new', methods=['POST'])
@@ -126,6 +135,22 @@ def update_cards_order(card_id):
     queries.update_card_order(card_id, data['new_card_order'])
     queries.update_cards_order(-1, data['old_card_order'], data['old_status'], data['board_id'], card_id)
     queries.update_cards_order(1, data['new_card_order'], data['new_status'], data['board_id'], card_id)
+    return 'ok'
+
+
+@app.route('/api/cards/card_order_after_delete/update', methods=['PATCH'])
+def update_cards_order_after_delete():
+    data = request.get_json()
+    queries.update_cards_order(-1, data['card_order'], data['status_id'], data['board_id'], data['card_id'])
+    return 'ok'
+
+
+@app.route('/api/cards/<int:card_id>/archived_status/update', methods=['PATCH'])
+def update_card_archived_status(card_id):
+    new_archived_status = request.get_json()['new_status']
+    new_card_order = request.get_json()['new_order']
+    queries.update_card_archived_status(card_id, new_archived_status)
+    queries.update_card_order(card_id, new_card_order)
     return 'ok'
 
 

@@ -9,29 +9,7 @@ export let boardsManager = {
   loadBoards: async function () {
     const boards = await dataHandler.getBoards();
     for (let board of boards) {
-      const boardBuilder = htmlFactory(htmlTemplates.board);
-      const content = boardBuilder(board);
-      domManager.addChild("#root", content);
-      domManager.addEventListener(
-        `.toggle-board-button[data-board-id="${board.id}"]`,
-        "click",
-        showHideButtonHandler
-      );
-      domManager.addEventListener(
-        `.board-add[data-board-id="${board.id}"]`,
-        "click",
-        newCardFormBuilder
-      );
-      domManager.addEventListener(
-        `[board-title-id="${board.id}"]`,
-        "click",
-        changeBoardTitle
-      );
-      domManager.addEventListener(
-                `.board-delete[data-board-id="${board.id}"]`,
-                "click",
-                deleteButtonHandler
-            );
+      initBoardEvents(board);
     }
   },
   initNewBoardButton: function () {
@@ -45,6 +23,12 @@ async function showHideButtonHandler(clickEvent) {
     document.querySelector(`.board[data-board-id="${boardId}"] .board-header .board-toggle i`).classList.toggle('fa-chevron-up');
     if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
         domManager.deleteChildren(`.board[data-board-id="${boardId}"] .board-columns`);
+        if (domManager.hasChildren(`.board-archived-container[data-board-id="${boardId}"]`)) {
+            domManager.deleteChildren(`.board-archived-container[data-board-id="${boardId}"]`);
+        }
+        if (document.querySelector(`form[data-board-id="${boardId}"]`)) {
+            domManager.deleteChildren(`#newFormField`);
+        }
     } else {
         await columnManager.loadColumns(boardId);
         await cardsManager.loadCards(boardId);
@@ -79,32 +63,38 @@ async function newCardFormBuilder(clickEvent) {
     option.text = status.title;
     select.appendChild(option);
   }
+
+  if (! domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+      document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
+  }
   domManager.addEventListener(`#newFormField form`, "submit", cardsManager.addCardHandler);
 }
-
 
 async function submitNewBoard(event) {
   const title = event.currentTarget[0].value;
   let board = (await dataHandler.createNewBoard(title))[0];
-  const boardBuilder = htmlFactory(htmlTemplates.board);
-  const content = boardBuilder(board);
-  domManager.addChild("#root", content);
-  domManager.addEventListener(
-    `.toggle-board-button[data-board-id="${board.id}"]`,
-    "click",
-    showHideButtonHandler
-  );
-  domManager.addEventListener(
-      `.board-delete[data-board-id="${board.id}"]`,
-      "click",
-      deleteButtonHandler
-  );
-  domManager.addEventListener(
-        `.board-add[data-board-id="${board.id}"]`,
-        "click",
-        newCardFormBuilder
-  );
-  modalManager.closeModal();
+  initBoardEvents(board);
+}
+
+async function boardArchiveButtonHandler(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    if (domManager.hasChildren(`.board-archived-container[data-board-id="${boardId}"]`)) {
+        domManager.deleteChildren(`.board-archived-container[data-board-id="${boardId}"]`);
+    } else {
+        document.querySelector(`.board-archived-container[data-board-id="${boardId}"]`).innerHTML = `
+        <div class="board-columns-archive">
+            <div class="board-column-archive">
+                <div class="board-column-title">archived</div>
+                <div class="board-column-content" data-board-id="${boardId}"></div>
+            </div> 
+        </div>`;
+
+        if (! domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+            document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
+        }
+
+        await cardsManager.loadArchivedCards(boardId);
+    }
 }
 
 function changeBoardTitle(clickEvent) {
@@ -115,9 +105,40 @@ function changeBoardTitle(clickEvent) {
   domManager.changeDomBoardTitle(boardTitle);
 }
 
-
 function deleteButtonHandler(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     dataHandler.deleteBoard(boardId);
     domManager.deleteElement(`.board[data-board-id="${boardId}"]`);
+}
+
+function initBoardEvents(board) {
+    const boardBuilder = htmlFactory(htmlTemplates.board);
+    const content = boardBuilder(board);
+    domManager.addChild("#root", content);
+    domManager.addEventListener(
+        `.toggle-board-button[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+    );
+    domManager.addEventListener(
+        `.board-add-card[data-board-id="${board.id}"]`,
+        "click",
+        newCardFormBuilder
+    );
+    domManager.addEventListener(
+        `.board-archived[data-board-id="${board.id}"]`,
+        "click",
+        boardArchiveButtonHandler
+    );
+    domManager.addEventListener(
+        `[board-title-id="${board.id}"]`,
+        "click",
+        changeBoardTitle
+    );
+    domManager.addEventListener(
+        `.board-delete[data-board-id="${board.id}"]`,
+        "click",
+        deleteButtonHandler
+    );
+    modalManager.closeModal();
 }

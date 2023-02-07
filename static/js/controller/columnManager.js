@@ -18,7 +18,7 @@ export let columnManager = {
         let columnTitles = await document.getElementsByClassName('board-column-title');
         for (let columnTitle of columnTitles) {
             domManager.addEventListener(
-                `[data-column-id="${columnTitle.attributes[1].nodeValue}"]`,
+                `[data-column-title-id="${columnTitle.attributes[1].nodeValue}"]`,
                 "click",
                 changeColumnTitle
               );
@@ -29,10 +29,10 @@ export let columnManager = {
 
 function changeColumnTitle(clickEvent) {
    
-    const columnTitleId = clickEvent.target.getAttribute("data-column-id");
+    const columnTitleId = clickEvent.target.getAttribute("data-column-title-id");
     console.log(columnTitleId); 
     const columnTitle = document.querySelector(
-      `[data-column-id="${columnTitleId}"]`
+      `[data-column-title-id="${columnTitleId}"]`
     );
     console.log(columnTitle);
     
