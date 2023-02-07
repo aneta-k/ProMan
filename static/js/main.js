@@ -10,3 +10,16 @@ function init() {
 }
 
 init();
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register("/service-worker.js", { scope: '/' }).then(
+        registration => {
+          console.log(`Service Worker registered! Scope: ${registration.scope}`);
+        },
+        error => {
+          console.error(`Service Worker registration failed: ${error}`);
+        },
+      );
+    });
+  }
