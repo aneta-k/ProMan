@@ -69,7 +69,9 @@ def get_boards():
     """
     All the boards
     """
-    return queries.get_boards()
+    if "username" in session:
+        return queries.get_public_and_private_boards(session['user_id'])
+    return queries.get_public_boards()
 
 
 @app.route("/api/boards/create", methods=['POST'])

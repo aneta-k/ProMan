@@ -18,7 +18,7 @@ def get_card_status(status_id):
     return status
 
 
-def get_boards():
+def get_public_boards():
     """
     Gather all boards
     :return:
@@ -26,9 +26,28 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
+        WHERE user_id IS NULL
         ORDER BY id ASC
         ;
         """
+    )
+
+
+def get_public_and_private_boards(user_id):
+    """
+    Gather all boards
+    :return:
+    """
+    return data_manager.execute_select(
+        """
+        SELECT * FROM boards
+        WHERE user_id IS NULL
+        UNION 
+        SELECT * FROM boards
+        WHERE user_id = %(user_id)s
+        ORDER BY id ASC
+        ;
+        """, {"user_id": user_id}
     )
 
 
