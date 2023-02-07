@@ -3,6 +3,7 @@ import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
 import { domManager } from "../view/domManager.js";
 import { cardsManager } from "./cardsManager.js";
 import { columnManager } from "./columnManager.js";
+import {modalManager} from "./modalManager.js";
 
 export let boardsManager = {
   loadBoards: async function () {
@@ -34,7 +35,7 @@ export let boardsManager = {
     }
   },
   initNewBoardButton: function () {
-    domManager.addEventListener(`#newBoard`, "click", addNewBoard);
+    domManager.addEventListener(`#newBoard`, "click", showNewBoardModal);
   },
 };
 
@@ -48,6 +49,17 @@ async function showHideButtonHandler(clickEvent) {
         await columnManager.loadColumns(boardId);
         await cardsManager.loadCards(boardId);
     }
+}
+
+function showNewBoardModal() {
+      const content = `<br><form onsubmit="return false;">
+                        <input type="text" placeholder="Board Title" required>
+                        <button type="submit">Save</button>
+                    </form>`;
+      document.getElementsByClassName('modal-header-text')[0].textContent = 'New Board';
+      document.querySelector(`.modal-content`).innerHTML = content;
+      domManager.addEventListener(`.modal-content form`, "submit", submitNewBoard);
+      modalManager.showModal();
 }
 
 async function newCardFormBuilder(clickEvent) {
@@ -70,14 +82,6 @@ async function newCardFormBuilder(clickEvent) {
   domManager.addEventListener(`#newFormField form`, "submit", cardsManager.addCardHandler);
 }
 
-function addNewBoard() {
-  const content = `<br><form onsubmit="return false;">
-                        <input type="text" placeholder="Board Title" required>
-                        <button type="submit">Save</button>
-                    </form>`;
-  document.querySelector(`#newFormField`).innerHTML = content;
-  domManager.addEventListener(`#newFormField form`, "submit", submitNewBoard);
-}
 
 async function submitNewBoard(event) {
   const title = event.currentTarget[0].value;
@@ -100,7 +104,7 @@ async function submitNewBoard(event) {
         "click",
         newCardFormBuilder
   );
-  domManager.deleteChildren(`#newFormField`);
+  modalManager.closeModal();
 }
 
 function changeBoardTitle(clickEvent) {
