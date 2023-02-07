@@ -53,6 +53,21 @@ export let dataHandler = {
     let data = {new_status: newStatus, new_order: newOrder};
     await apiPatch(`/api/cards/${cardId}/archived_status/update`, data);
   },
+  login: async function (username, password) {
+    let data = { username: username, password: password };
+    return await apiPost(`/login`, data);
+  },
+  register: async function (username, password) {
+    let data = { username: username, password: password };
+    return await apiPost(`/register`, data);
+  },
+  logout: async function () {
+    return await apiPost(`/logout`);
+  },
+  changeColumnTitleApi: async function (columnID, title) {
+    let data = { id: columnID, title: title };
+    return await apiPatch(`/api/column/${columnID}`, data);
+  }
 };
 
 async function apiGet(url) {
