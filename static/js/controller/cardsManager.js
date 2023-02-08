@@ -54,7 +54,9 @@ async function unarchiveButtonHandler(clickEvent) {
 function deleteButtonHandler(clickEvent) {
   let cardId = clickEvent.target.dataset.cardId;
   dataHandler.deleteCard(cardId);
-  updateCardOrderAfterCardDelete(clickEvent);
+  if(clickEvent.target.previousElementSibling.classList.contains('card-archive')){
+      updateCardOrderAfterCardDelete(clickEvent);
+  }
   domManager.deleteElement(`.card[data-card-id="${cardId}"]`);
 }
 

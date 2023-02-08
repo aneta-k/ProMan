@@ -17,8 +17,8 @@ export let dataHandler = {
   getCard: async function (cardId) {
     return await apiGet(`/api/cards/${cardId}`);
   },
-  createNewBoard: async function (boardTitle) {
-    return await apiPost(`/api/boards/create`, { title: boardTitle });
+  createNewBoard: async function (boardTitle, privateBoard) {
+    return await apiPost(`/api/boards/create`, { title: boardTitle, privateBoard: privateBoard });
   },
   createNewCard: async function (cardTitle, boardId, statusId, cardOrder) {
     let card = { status_id: statusId, title: cardTitle, card_order: cardOrder };

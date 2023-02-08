@@ -27,7 +27,7 @@ export function htmlFactory(template) {
 function boardBuilder(board) {
   return `<section class="board" data-board-id="${board.id}">
                 <div class="board-header">
-                    <span class="board-title" board-title-id="${board.id}">${board.title}</span>
+                    <span class="board-title" data-board-id="${board.id}">${board.title}</span>
                     <button class="board-add-card" data-board-id="${board.id}">Add Card</button>
                     <button class="board-add-col" data-board-id="${board.id}">Add Column</button>
                     <button class="board-archived" data-board-id="${board.id}"><i class="fas fa-boxes-packing"></i></button>
@@ -49,7 +49,7 @@ function cardBuilder(card) {
 
 function columnBuilder(column, boardId) {
     return `<div class="board-column card-slot" data-board-id="${boardId}" data-column-id="${column.id}">
-                <div class="board-column-title" data-column-title-id="${column.id}">${column.title}</div>
+                <div class="board-column-title" data-column-id="${column.id}">${column.title}</div>
                 <div class="board-column-content"></div>
             </div>`;
 }

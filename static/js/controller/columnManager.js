@@ -10,32 +10,15 @@ export let columnManager = {
             const columnBuilder = htmlFactory(htmlTemplates.column);
             const content = columnBuilder(status, boardId);
             domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, content);
-        }
-        let columns = document.getElementsByClassName('card-slot');
-        for (let column of columns) {
-            dragHandler.initDropzone(column);
-        };
-        let columnTitles = await document.getElementsByClassName('board-column-title');
-        for (let columnTitle of columnTitles) {
+            const newestColumn = await document.querySelector(`.card-slot[data-column-id="${status.id}"]`);
+            dragHandler.initDropzone(newestColumn);
             domManager.addEventListener(
-                `[data-column-title-id="${columnTitle.attributes[1].nodeValue}"]`,
-                "click",
-                changeColumnTitle
-              );
+                `.board-column-title[data-column-id="${status.id}"]`,
+                "dblclick",
+                domManager.changeDomColumnTitle
+            );
         }
     },
 };
 
-
-function changeColumnTitle(clickEvent) {
-   
-    const columnTitleId = clickEvent.target.getAttribute("data-column-title-id");
-    console.log(columnTitleId); 
-    const columnTitle = document.querySelector(
-      `[data-column-title-id="${columnTitleId}"]`
-    );
-    console.log(columnTitle);
-    
-    domManager.changeDomColumnTitle(columnTitle);
-  }
   

@@ -74,7 +74,13 @@ section.board{
 .board-columns{
     display: flex;
     flex-wrap: nowrap;
+    overflow: auto;
     width: 100%;
+}
+
+.board-column{
+    padding: 10px;
+    flex: 1 0 20%;
 }
 
 .board-archived-container{
@@ -84,12 +90,13 @@ section.board{
 
 .board-columns-archive{
     display: flex;
-    width: 25%;
+    justify-content: center;
+    width: 100%;
 }
 
-.board-column, .board-column-archive{
+.board-column-archive{
     padding: 10px;
-    flex: 1;
+    flex: 0 1 26%;
 }
 
 .board-column-content{

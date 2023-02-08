@@ -10,7 +10,10 @@ export let userManager = {
       } catch (TypeError) {
           document.getElementById('logoutButton').addEventListener('click', logout);
       }
-  }
+  },
+    isLoggedIn: function () {
+      return (document.cookie.match('(^|;)\\s*' + 'logged_in' + '\\s*=\\s*([^;]+)')[2].toLowerCase() === 'true');
+    }
 };
 
 function showLoginModal() {
@@ -49,8 +52,13 @@ async function login(event) {
 async function register(event) {
     const username = event.currentTarget[0].value;
     const password = event.currentTarget[1].value;
-    await dataHandler.register(username, password);
-    window.location.reload();
+    const response = await dataHandler.register(username, password);
+    if (response === 200) {
+        window.location.reload();
+    } else if (response === 409) {
+        document.getElementById('modalWarning').innerText = 'Username is already in use!';
+        modalManager.showModalWarning();
+    }
 }
 
 async function logout() {

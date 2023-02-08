@@ -44,6 +44,15 @@
     text-align: center;
 }
 
+.modal-warning {
+    display: none;
+    margin: auto;
+    padding: 1%;
+    width: 40%;
+    text-align: center;
+    background-color: #e75c5c;
+}
+
 .close {
     color: #aaa;
     float: right;

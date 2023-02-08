@@ -4,6 +4,7 @@ import { domManager } from "../view/domManager.js";
 import { cardsManager } from "./cardsManager.js";
 import { columnManager } from "./columnManager.js";
 import {modalManager} from "./modalManager.js";
+import {userManager} from "./userManager.js";
 
 export let boardsManager = {
   loadBoards: async function () {
@@ -36,14 +37,23 @@ async function showHideButtonHandler(clickEvent) {
 }
 
 function showNewBoardModal() {
-      const content = `<br><form onsubmit="return false;">
+    const content = `<form onsubmit="return false;">
+                        <label>Title:</label>
                         <input type="text" placeholder="Board Title" required>
-                        <button type="submit">Save</button>
+                        <br>
+                        <br>
+                        ` +
+                        ((userManager.isLoggedIn()) ? `<label>Private:</label>
+                        <input type="checkbox">
+                        <br>
+                        <br>
+                        ` : ``)
+                        + `<button type="submit">Save</button>
                     </form>`;
-      document.getElementsByClassName('modal-header-text')[0].textContent = 'New Board';
-      document.querySelector(`.modal-content`).innerHTML = content;
-      domManager.addEventListener(`.modal-content form`, "submit", submitNewBoard);
-      modalManager.showModal();
+    document.getElementsByClassName('modal-header-text')[0].textContent = 'New Board';
+    document.querySelector(`.modal-content`).innerHTML = content;
+    domManager.addEventListener(`.modal-content form`, "submit", submitNewBoard);
+    modalManager.showModal();
 }
 
 async function newCardFormBuilder(clickEvent) {
@@ -72,7 +82,9 @@ async function newCardFormBuilder(clickEvent) {
 
 async function submitNewBoard(event) {
   const title = event.currentTarget[0].value;
-  let board = (await dataHandler.createNewBoard(title))[0];
+  let privateBoard = false;
+  if (userManager.isLoggedIn()) {privateBoard = event.currentTarget[1].value}
+  let board = (await dataHandler.createNewBoard(title, privateBoard))[0];
   initBoardEvents(board);
 }
 
@@ -95,14 +107,6 @@ async function boardArchiveButtonHandler(clickEvent) {
 
         await cardsManager.loadArchivedCards(boardId);
     }
-}
-
-function changeBoardTitle(clickEvent) {
-  const boardTitleId = clickEvent.target.getAttribute("board-title-id");
-  const boardTitle = document.querySelector(
-    `[board-title-id="${boardTitleId}"]`
-  );
-  domManager.changeDomBoardTitle(boardTitle);
 }
 
 function deleteButtonHandler(clickEvent) {
@@ -131,9 +135,9 @@ function initBoardEvents(board) {
         boardArchiveButtonHandler
     );
     domManager.addEventListener(
-        `[board-title-id="${board.id}"]`,
-        "click",
-        changeBoardTitle
+        `.board-title[data-board-id="${board.id}"]`,
+        "dblclick",
+        domManager.changeDomBoardTitle
     );
     domManager.addEventListener(
         `.board-delete[data-board-id="${board.id}"]`,
