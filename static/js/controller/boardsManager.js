@@ -109,14 +109,6 @@ async function boardArchiveButtonHandler(clickEvent) {
     }
 }
 
-function changeBoardTitle(clickEvent) {
-  const boardTitleId = clickEvent.target.getAttribute("board-title-id");
-  const boardTitle = document.querySelector(
-    `[board-title-id="${boardTitleId}"]`
-  );
-  domManager.changeDomBoardTitle(boardTitle);
-}
-
 function deleteButtonHandler(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     dataHandler.deleteBoard(boardId);
@@ -143,9 +135,9 @@ function initBoardEvents(board) {
         boardArchiveButtonHandler
     );
     domManager.addEventListener(
-        `[board-title-id="${board.id}"]`,
-        "click",
-        changeBoardTitle
+        `.board-title[data-board-id="${board.id}"]`,
+        "dblclick",
+        domManager.changeDomBoardTitle
     );
     domManager.addEventListener(
         `.board-delete[data-board-id="${board.id}"]`,

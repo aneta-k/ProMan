@@ -22,11 +22,13 @@ export let columnManager = {
         };
         let columnTitles = await document.getElementsByClassName('board-column-title');
         for (let columnTitle of columnTitles) {
+            const newestColumn = await document.querySelector(`.card-slot[data-column-id="${status.id}"]`);
+            dragHandler.initDropzone(newestColumn);
             domManager.addEventListener(
-                `[data-column-title-id="${columnTitle.attributes[1].nodeValue}"]`,
-                "click",
+                `.board-column-title[data-column-id="${status.id}"]`,
+                "dblclick",
                 changeColumnTitle
-              );
+            );
         }
     },
 };
