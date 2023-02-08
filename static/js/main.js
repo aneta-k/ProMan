@@ -17,6 +17,9 @@ init();
 
 document.getElementById("refresh").addEventListener("click", function(){refresh_boards()});
 
+setInterval(() => {refresh_boards()}, 5000)
+
+
 function refresh_boards() {
   let openBoardsArray = clearTheBoards();
   domManager.deleteChildren(`.board-container`);
