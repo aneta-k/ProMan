@@ -124,27 +124,27 @@ section.board{
     padding: 4px;
 }
 
-.board-column:nth-of-type(1) .card{
+.board-column:nth-of-type(7n + 1) .card{
     background: var(--status-1);
 }
 
-.board-column:nth-of-type(2) .card{
+.board-column:nth-of-type(7n + 2) .card{
     background: var(--status-2);
 }
 
-.board-column:nth-of-type(3) .card{
+.board-column:nth-of-type(7n + 3) .card{
     background: var(--status-3);
 }
 
-.board-column:nth-of-type(4) .card{
+.board-column:nth-of-type(7n + 4) .card{
     background: var(--status-4);
 }
 
-.board-column:nth-of-type(5) .card{
+.board-column:nth-of-type(7n + 5) .card{
     background: var(--status-5);
 }
 
-.board-column:nth-of-type(6) .card{
+.board-column:nth-of-type(7n + 6) .card{
     background: var(--status-6);
 }
 

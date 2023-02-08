@@ -122,6 +122,13 @@ def add_new_card(board_id: int):
     return queries.get_card_by_id(card_id['id'])
 
 
+@app.route('/api/boards/<int:board_id>/statuses/create', methods=['POST'])
+@json_response
+def add_new_column(board_id: int):
+    title = request.get_json()['title']
+    return queries.add_new_column(board_id, title)
+
+
 @app.route("/api/boards/<int:board_id>/statuses")
 @json_response
 def get_statuses(board_id):
