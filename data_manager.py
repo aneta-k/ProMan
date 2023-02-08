@@ -9,6 +9,11 @@ def establish_connection(connection_data=None):
     :connection_data: Connection string attributes
     :returns: psycopg2.connection
     """
+    if os.environ.get('DATABASE_URL') is not None:
+        connection_string = os.environ.get('DATABASE_URL')
+        connection = psycopg2.connect(connection_string)
+        connection.autocommit = True
+        return connection
     if connection_data is None:
         connection_data = get_connection_data()
     try:

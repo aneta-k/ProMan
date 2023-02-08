@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, url_for, request, jsonify, session, make_response
+from flask import Flask, render_template, url_for, request, jsonify, session, make_response, send_from_directory
 from dotenv import load_dotenv
 
 import password_handler
@@ -35,8 +35,7 @@ def login():
             session['user_id'] = user_data['id']
             session['username'] = user_data['username']
             return 200
-        else:
-            return 401
+    return 401
 
 
 @app.route("/register", methods=['POST'])
@@ -89,6 +88,13 @@ def create_board():
 @json_response
 def delete_board(board_id):
     queries.delete_board(board_id)
+    return 200
+
+
+@app.route("/api/columns/<int:column_id>/delete", methods=['DELETE'])
+@json_response
+def delete_column(column_id):
+    queries.delete_column(column_id)
     return 200
 
 
@@ -184,6 +190,14 @@ def change_card_title(card_id):
 def change_column_title(column_id):
     title = request.json['title']
     return queries.change_column_title(column_id, title)
+
+@app.route('/service-worker.js', methods=['GET'])
+def service_worker_offline():
+    response=make_response(send_from_directory('static', 'service-worker.js'))
+    response.headers['Content-Type'] = 'application/javascript'
+    return response
+    # return app.send_static_file('service-worker.js')
+
 
 def main():
     app.run(debug=True)

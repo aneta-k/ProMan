@@ -48,6 +48,9 @@ export let dataHandler = {
   deleteBoard: async function (boardId) {
     await apiDelete(`/api/boards/${boardId}/delete`);
   },
+  deleteColumn: async function (columnId) {
+    await apiDelete(`/api/columns/${columnId}/delete`);
+  },
   changeCardTitleApi: async function (cardID, title) {
     let data = { id: cardID, title: title };
     return await apiPatch(`/api/card/${cardID}`, data);
