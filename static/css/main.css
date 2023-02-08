@@ -66,3 +66,11 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+#refresh {
+    cursor: pointer;
+    border-radius: 50%;
+    object-position: right top;
+    max-width: 10%;
+    height: auto;
+}

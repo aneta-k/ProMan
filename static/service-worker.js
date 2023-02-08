@@ -26,10 +26,10 @@ self.addEventListener("install", e => {
 			"./static/css/main.css", 
 			"./static/css/design.css"]);
 		}),
-		caches.open('templates').then(cache =>{
-			return cache.addAll([
-			"/index.html"]);
-		})
+		// caches.open('templates').then(cache =>{
+		// 	return cache.addAll([
+		// 	"/index.html"]);
+		// })
 	);
 	
 });
