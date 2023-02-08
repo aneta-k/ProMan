@@ -35,8 +35,7 @@ def login():
             session['user_id'] = user_data['id']
             session['username'] = user_data['username']
             return 200
-        else:
-            return 401
+    return 401
 
 
 @app.route("/register", methods=['POST'])
