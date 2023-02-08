@@ -41,7 +41,7 @@ function boardBuilder(board) {
 
 function cardBuilder(card) {
     return `<div class="card" data-card-id="${card.id}" data-board-id="${card.board_id}" data-card-order="${card.card_order}">
-                <div class="card-archive" data-card-id="${card.id}"><i class="fas fa-file-circle-xmark"></i></i></div>
+                <div class="card-archive" data-card-id="${card.id}"><i class="fas fa-file-circle-xmark"></i></div>
                 <div class="card-remove" data-card-id="${card.id}"><i class="fas fa-trash-alt"></i></div>
                 <div class="card-title" card-title-id="${card.id}">${card.title}</div>
             </div>`;
@@ -51,7 +51,7 @@ function columnBuilder(column, boardId) {
     return `<div class="board-column card-slot" data-board-id="${boardId}" data-column-id="${column.id}">
                 <span class="board-column-header">
                   <div class="board-column-title" data-column-id="${column.id}">${column.title}</div>
-                  <button class="column-delete" data-column-id="${column.id}"><i class="fas fa-trash-alt column-delete"></i></button>
+                  <span class="column-delete" data-column-id="${column.id}"><i class="fas fa-trash-alt column-delete"></i></span> 
                 </span>
                 <div class="board-column-content"></div>
             </div>`;
