@@ -7,11 +7,13 @@ import password_handler
 from util import json_response
 import mimetypes
 import queries
+import cards_handler
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 app.secret_key = 'codecool'
 load_dotenv()
+
 
 @app.route("/")
 def index():
@@ -106,20 +108,20 @@ def get_cards_for_board(board_id: int, archived_status: bool):
     :param board_id: id of the parent board
     :param archived_status: archived or not cards
     """
-    return queries.get_cards_for_board(board_id, archived_status)
+    return cards_handler.get_cards_for_board(board_id, archived_status)
 
 
 @app.route('/api/cards/<int:card_id>')
 @json_response
 def get_card(card_id):
-    return queries.get_card_by_id(card_id)
+    return cards_handler.get_card_by_id(card_id)
 
 
 @app.route('/api/boards/<int:board_id>/cards/add_new', methods=['POST'])
 def add_new_card(board_id: int):
     card = request.get_json()
-    card_id = queries.add_new_card(card, board_id)
-    return queries.get_card_by_id(card_id['id'])
+    card_id = cards_handler.add_new_card(card, board_id)
+    return cards_handler.get_card_by_id(card_id['id'])
 
 
 @app.route('/api/boards/<int:board_id>/statuses/create', methods=['POST'])
@@ -137,30 +139,30 @@ def get_statuses(board_id):
 
 @app.route("/api/cards/<int:card_id>/delete", methods=['DELETE'])
 def delete_card(card_id):
-    queries.delete_card(card_id)
+    cards_handler.delete_card(card_id)
     return 'ok'
 
 
 @app.route("/api/cards/<int:card_id>/status/update", methods=['PATCH'])
 def update_card_status(card_id):
     status = request.json['statusId']
-    queries.update_card_status(card_id, status)
+    cards_handler.update_card_status(card_id, status)
     return 'ok'
 
 
 @app.route('/api/cards/<int:card_id>/card_order/update', methods=['PATCH'])
 def update_cards_order(card_id):
     data = request.get_json()
-    queries.update_card_order(card_id, data['new_card_order'])
-    queries.update_cards_order(-1, data['old_card_order'], data['old_status'], data['board_id'], card_id)
-    queries.update_cards_order(1, data['new_card_order'], data['new_status'], data['board_id'], card_id)
+    cards_handler.update_card_order(card_id, data['new_card_order'])
+    cards_handler.update_cards_order(-1, data['old_card_order'], data['old_status'], data['board_id'], card_id)
+    cards_handler.update_cards_order(1, data['new_card_order'], data['new_status'], data['board_id'], card_id)
     return 'ok'
 
 
 @app.route('/api/cards/card_order_after_delete/update', methods=['PATCH'])
 def update_cards_order_after_delete():
     data = request.get_json()
-    queries.update_cards_order(-1, data['card_order'], data['status_id'], data['board_id'], data['card_id'])
+    cards_handler.update_cards_order(-1, data['card_order'], data['status_id'], data['board_id'], data['card_id'])
     return 'ok'
 
 
@@ -168,8 +170,8 @@ def update_cards_order_after_delete():
 def update_card_archived_status(card_id):
     new_archived_status = request.get_json()['new_status']
     new_card_order = request.get_json()['new_order']
-    queries.update_card_archived_status(card_id, new_archived_status)
-    queries.update_card_order(card_id, new_card_order)
+    cards_handler.update_card_archived_status(card_id, new_archived_status)
+    cards_handler.update_card_order(card_id, new_card_order)
     return 'ok'
 
 
@@ -179,17 +181,20 @@ def change_board_title(board_id):
     title = request.json['title']
     return queries.change_board_title(board_id, title)
 
+
 @app.route("/api/card/<int:card_id>", methods=["PATCH"])
 @json_response
 def change_card_title(card_id):
     title = request.json['title']
-    return queries.change_card_title(card_id, title)
+    return cards_handler.change_card_title(card_id, title)
+
 
 @app.route("/api/column/<int:column_id>", methods=["PATCH"])
 @json_response
 def change_column_title(column_id):
     title = request.json['title']
     return queries.change_column_title(column_id, title)
+
 
 @app.route('/service-worker.js', methods=['GET'])
 def service_worker_offline():
