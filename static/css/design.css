@@ -196,3 +196,8 @@ section.board{
 .fas {
     pointer-events: none;
 }
+
+.new-board-button-container{
+    max-width: 960px;
+    margin: 0 auto;
+}
