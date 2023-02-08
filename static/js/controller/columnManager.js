@@ -2,6 +2,7 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {dragHandler} from "../dragHandler.js";
+import {modalManager} from "./modalManager.js";
 
 export let columnManager = {
     loadColumns: async function (boardId) {
@@ -24,6 +25,20 @@ export let columnManager = {
             );
         }
     },
+    addDefaultColumns: async function (boardId) {
+        for (let title of ['new', 'in progress', 'testing', 'done']) {
+            await dataHandler.createNewColumn(boardId, title);
+        }
+    },
+    addNewColumnHandler: async function(clickEvent) {
+        const boardId = clickEvent.target.dataset.boardId;
+        const title = clickEvent.target[0].value;
+        await dataHandler.createNewColumn(boardId, title);
+        modalManager.closeModal();
+        if (! domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+            document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
+        }
+    }
 };
 
 function deleteButtonHandler(event) {

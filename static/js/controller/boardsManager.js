@@ -80,12 +80,36 @@ async function newCardFormBuilder(clickEvent) {
   domManager.addEventListener(`#newFormField form`, "submit", cardsManager.addCardHandler);
 }
 
+async function newColumnModalBuilder(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    const boardTitle = document.querySelector(`.board-title[data-board-id="${boardId}"]`).innerHTML;
+    const content = `<form onsubmit="return false;" data-board-id="${boardId}">
+                        <label>Title:</label>
+                        <input type="text" placeholder="Column Title" required>
+                        <br>
+                        <br>
+                        <button type="submit">Save</button>
+                    </form>`;
+    document.getElementsByClassName('modal-header-text')[0].textContent = `New Column for ${boardTitle}`;
+    document.querySelector(`.modal-content`).innerHTML = content;
+    domManager.addEventListener(
+        `.modal-content form`,
+        "submit",
+        columnManager.addNewColumnHandler
+    );
+    if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+        document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
+    }
+    modalManager.showModal();
+}
+
 async function submitNewBoard(event) {
   const title = event.currentTarget[0].value;
   let privateBoard = false;
   if (userManager.isLoggedIn()) {privateBoard = event.currentTarget[1].value}
   let board = (await dataHandler.createNewBoard(title, privateBoard))[0];
   initBoardEvents(board);
+  await columnManager.addDefaultColumns(board.id);
 }
 
 async function boardArchiveButtonHandler(clickEvent) {
@@ -128,6 +152,11 @@ function initBoardEvents(board) {
         `.board-add-card[data-board-id="${board.id}"]`,
         "click",
         newCardFormBuilder
+    );
+    domManager.addEventListener(
+        `.board-add-col[data-board-id="${board.id}"]`,
+        "click",
+        newColumnModalBuilder
     );
     domManager.addEventListener(
         `.board-archived[data-board-id="${board.id}"]`,
