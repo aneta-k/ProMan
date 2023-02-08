@@ -1,6 +1,7 @@
 import {boardsManager} from "./controller/boardsManager.js";
 import {userManager} from "./controller/userManager.js";
 import {modalManager} from "./controller/modalManager.js";
+import {domManager} from "./view/domManager.js";
 
 function init() {
     boardsManager.loadBoards();
@@ -24,4 +25,10 @@ if ('serviceWorker' in navigator) {
     });
   }
 
-document.getElementById("refresh").addEventListener("click", function(){init()});
+document.getElementById("refresh").addEventListener("click", function(){refresh_boards()});
+
+
+function refresh_boards() {
+  domManager.deleteChildren(`.board-container`);
+  init();
+}
