@@ -10,6 +10,11 @@ export let columnManager = {
             const columnBuilder = htmlFactory(htmlTemplates.column);
             const content = columnBuilder(status, boardId);
             domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, content);
+            domManager.addEventListener(
+                `.column-delete[data-column-id="${status.id}"]`,
+                "click",
+                deleteButtonHandler
+            );
             const newestColumn = await document.querySelector(`.card-slot[data-column-id="${status.id}"]`);
             dragHandler.initDropzone(newestColumn);
             domManager.addEventListener(
@@ -21,4 +26,8 @@ export let columnManager = {
     },
 };
 
-  
+function deleteButtonHandler(event) {
+    let columnId = event.currentTarget.dataset.columnId;
+    dataHandler.deleteColumn(columnId);
+    domManager.deleteElement(`.board-column[data-column-id="${columnId}"]`);
+}

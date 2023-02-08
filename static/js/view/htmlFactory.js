@@ -49,7 +49,10 @@ function cardBuilder(card) {
 
 function columnBuilder(column, boardId) {
     return `<div class="board-column card-slot" data-board-id="${boardId}" data-column-id="${column.id}">
-                <div class="board-column-title" data-column-id="${column.id}">${column.title}</div>
+                <span class="board-column-header">
+                  <div class="board-column-title" data-column-id="${column.id}">${column.title}</div>
+                  <button class="column-delete" data-column-id="${column.id}"><i class="fas fa-trash-alt column-delete"></i></button>
+                </span>
                 <div class="board-column-content"></div>
             </div>`;
 }

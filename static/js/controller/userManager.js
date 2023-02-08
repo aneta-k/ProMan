@@ -45,8 +45,13 @@ function showRegisterModal() {
 async function login(event) {
     const username = event.currentTarget[0].value;
     const password = event.currentTarget[1].value;
-    await dataHandler.login(username, password);
-    window.location.reload();
+    const response = await dataHandler.login(username, password);
+    if (response === 200) {
+        window.location.reload();
+    } else if (response === 401) {
+        document.getElementById('modalWarning').innerText = 'Incorrect login!';
+        modalManager.showModalWarning();
+    }
 }
 
 async function register(event) {

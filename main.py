@@ -35,8 +35,7 @@ def login():
             session['user_id'] = user_data['id']
             session['username'] = user_data['username']
             return 200
-        else:
-            return 401
+    return 401
 
 
 @app.route("/register", methods=['POST'])
@@ -89,6 +88,13 @@ def create_board():
 @json_response
 def delete_board(board_id):
     queries.delete_board(board_id)
+    return 200
+
+
+@app.route("/api/columns/<int:column_id>/delete", methods=['DELETE'])
+@json_response
+def delete_column(column_id):
+    queries.delete_column(column_id)
     return 200
 
 
