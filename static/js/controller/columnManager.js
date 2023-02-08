@@ -41,8 +41,8 @@ export let columnManager = {
     }
 };
 
-function deleteButtonHandler(event) {
+async function deleteButtonHandler(event) {
     let columnId = event.currentTarget.dataset.columnId;
-    dataHandler.deleteColumn(columnId);
+    await dataHandler.deleteColumn(columnId);
     domManager.deleteElement(`.board-column[data-column-id="${columnId}"]`);
 }

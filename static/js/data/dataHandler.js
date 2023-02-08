@@ -2,14 +2,8 @@ export let dataHandler = {
   getBoards: async function () {
     return await apiGet("/api/boards");
   },
-  getBoard: async function (boardId) {
-    // the board is retrieved and then the callback function is called with the board
-  },
   getStatuses: async function (boardId) {
     return await apiGet(`/api/boards/${boardId}/statuses`);
-  },
-  getStatus: async function (statusId) {
-    // the status is retrieved and then the callback function is called with the status
   },
   getCardsByBoardId: async function (boardId, archivedStatus) {
     return await apiGet(`/api/boards/${boardId}/cards/archived=${archivedStatus}`);
@@ -31,9 +25,7 @@ export let dataHandler = {
     await apiDelete(`/api/cards/${cardId}/delete`);
   },
   updateCardStatus: async function (cardId, statusId) {
-    await apiPatch(`/api/cards/${cardId}/status/update`, {
-      statusId: statusId,
-    });
+    await apiPatch(`/api/cards/${cardId}/status/update`, {statusId: statusId});
   },
   updateCardsOrder: async function(cardId, data) {
     await apiPatch(`api/cards/${cardId}/card_order/update`, data);
@@ -101,8 +93,6 @@ async function apiDelete(url) {
     method: "DELETE",
   });
 }
-
-async function apiPut(url) {}
 
 async function apiPatch(url, payload) {
   await fetch(url, {
