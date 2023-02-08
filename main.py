@@ -92,6 +92,13 @@ def delete_board(board_id):
     return 200
 
 
+@app.route("/api/columns/<int:column_id>/delete", methods=['DELETE'])
+@json_response
+def delete_column(column_id):
+    queries.delete_column(column_id)
+    return 200
+
+
 @app.route("/api/boards/<int:board_id>/cards/archived=<archived_status>")
 @json_response
 def get_cards_for_board(board_id: int, archived_status: bool):

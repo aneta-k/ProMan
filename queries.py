@@ -72,6 +72,16 @@ def delete_board(board_id):
         , {"board_id": board_id})
 
 
+def delete_column(column_id):
+    data_manager.execute(
+        """
+        DELETE FROM statuses
+        WHERE id = %(column_id)s
+        ;
+        """
+        , {"column_id": column_id})
+
+
 def get_cards_for_board(board_id, archived_status):
     matching_cards = data_manager.execute_select(
         """

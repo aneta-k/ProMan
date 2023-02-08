@@ -10,6 +10,11 @@ export let columnManager = {
             const columnBuilder = htmlFactory(htmlTemplates.column);
             const content = columnBuilder(status, boardId);
             domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, content);
+            domManager.addEventListener(
+                `.column-delete[data-column-id="${status.id}"]`,
+                "click",
+                deleteButtonHandler
+            );
         }
         let columns = document.getElementsByClassName('card-slot');
         for (let column of columns) {
@@ -38,4 +43,9 @@ function changeColumnTitle(clickEvent) {
     
     domManager.changeDomColumnTitle(columnTitle);
   }
-  
+
+function deleteButtonHandler(event) {
+    let columnId = event.currentTarget.dataset.columnId;
+    dataHandler.deleteColumn(columnId);
+    domManager.deleteElement(`.board-column[data-column-id="${columnId}"]`);
+}
