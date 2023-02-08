@@ -113,6 +113,8 @@ section.board{
 
 .board-column-title{
     text-align: center;
+    display: inline-block;
+    width: 91%;
 }
 
 .card{
@@ -163,6 +165,12 @@ section.board{
 
 .card-archive, .card-unarchive{
     right: 20px;
+}
+
+.column-delete{
+    color: #222222;
+    font-size: 12px;
+    cursor: pointer;
 }
 
 .card-archive:hover::before,
