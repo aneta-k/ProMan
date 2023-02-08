@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import password_handler
 from util import json_response
 import mimetypes
-import queries
+import users_handler
 import cards_handler
 import boards_handler
 import columns_handler
@@ -30,7 +30,7 @@ def index():
 @app.route('/login', methods=['POST'])
 @json_response
 def login():
-    user_data = queries.get_user_from_username(request.json['username'])
+    user_data = users_handler.get_user_from_username(request.json['username'])
     input_password = request.json['password']
     if user_data is not None:
         hashed_password = user_data['password']
@@ -47,12 +47,12 @@ def login():
 def register_user():
     username_input = request.json['username']
     hashed_password = password_handler.hash_password(request.json['password'])
-    if queries.get_user_from_username(username_input):
+    if users_handler.get_user_from_username(username_input):
         return 409
     else:
         print(hashed_password)
-        queries.register_new_user(username_input, hashed_password)
-        user_data = queries.get_user_from_username(username_input)
+        users_handler.register_new_user(username_input, hashed_password)
+        user_data = users_handler.get_user_from_username(username_input)
         session['username'] = username_input
         session['user_id'] = user_data['id']
         return 200
