@@ -15,36 +15,16 @@ export let columnManager = {
                 "click",
                 deleteButtonHandler
             );
-        }
-        let columns = document.getElementsByClassName('card-slot');
-        for (let column of columns) {
-            dragHandler.initDropzone(column);
-        };
-        let columnTitles = await document.getElementsByClassName('board-column-title');
-        for (let columnTitle of columnTitles) {
             const newestColumn = await document.querySelector(`.card-slot[data-column-id="${status.id}"]`);
             dragHandler.initDropzone(newestColumn);
             domManager.addEventListener(
                 `.board-column-title[data-column-id="${status.id}"]`,
                 "dblclick",
-                changeColumnTitle
+                domManager.changeDomColumnTitle
             );
         }
     },
 };
-
-
-function changeColumnTitle(clickEvent) {
-   
-    const columnTitleId = clickEvent.target.getAttribute("data-column-title-id");
-    console.log(columnTitleId); 
-    const columnTitle = document.querySelector(
-      `[data-column-title-id="${columnTitleId}"]`
-    );
-    console.log(columnTitle);
-    
-    domManager.changeDomColumnTitle(columnTitle);
-  }
 
 function deleteButtonHandler(event) {
     let columnId = event.currentTarget.dataset.columnId;
