@@ -9,6 +9,7 @@ import mimetypes
 import queries
 import cards_handler
 import boards_handler
+import columns_handler
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
@@ -97,7 +98,7 @@ def delete_board(board_id):
 @app.route("/api/columns/<int:column_id>/delete", methods=['DELETE'])
 @json_response
 def delete_column(column_id):
-    queries.delete_column(column_id)
+    columns_handler.delete_column(column_id)
     return 200
 
 
@@ -129,13 +130,13 @@ def add_new_card(board_id: int):
 @json_response
 def add_new_column(board_id: int):
     title = request.get_json()['title']
-    return queries.add_new_column(board_id, title)
+    return columns_handler.add_new_column(board_id, title)
 
 
 @app.route("/api/boards/<int:board_id>/statuses")
 @json_response
 def get_statuses(board_id):
-    return queries.get_statuses(board_id)
+    return columns_handler.get_statuses(board_id)
 
 
 @app.route("/api/cards/<int:card_id>/delete", methods=['DELETE'])
@@ -194,7 +195,7 @@ def change_card_title(card_id):
 @json_response
 def change_column_title(column_id):
     title = request.json['title']
-    return queries.change_column_title(column_id, title)
+    return columns_handler.change_column_title(column_id, title)
 
 
 @app.route('/service-worker.js', methods=['GET'])
