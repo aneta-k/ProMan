@@ -8,6 +8,7 @@ from util import json_response
 import mimetypes
 import queries
 import cards_handler
+import boards_handler
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
@@ -71,8 +72,8 @@ def get_boards():
     All the boards
     """
     if "username" in session:
-        return queries.get_public_and_private_boards(session['user_id'])
-    return queries.get_public_boards()
+        return boards_handler.get_public_and_private_boards(session['user_id'])
+    return boards_handler.get_public_boards()
 
 
 @app.route("/api/boards/create", methods=['POST'])
@@ -82,14 +83,14 @@ def create_board():
     private_board = request.json['privateBoard']
     if private_board == 'on':
         user_id = session['user_id']
-        return queries.create_private_board(title, user_id)
-    return queries.create_board(title)
+        return boards_handler.create_private_board(title, user_id)
+    return boards_handler.create_board(title)
 
 
 @app.route("/api/boards/<int:board_id>/delete", methods=['DELETE'])
 @json_response
 def delete_board(board_id):
-    queries.delete_board(board_id)
+    boards_handler.delete_board(board_id)
     return 200
 
 
@@ -179,7 +180,7 @@ def update_card_archived_status(card_id):
 @json_response
 def change_board_title(board_id):
     title = request.json['title']
-    return queries.change_board_title(board_id, title)
+    return boards_handler.change_board_title(board_id, title)
 
 
 @app.route("/api/card/<int:card_id>", methods=["PATCH"])
