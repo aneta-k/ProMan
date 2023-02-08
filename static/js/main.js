@@ -23,3 +23,5 @@ if ('serviceWorker' in navigator) {
       );
     });
   }
+
+document.getElementById("refresh").addEventListener("click", function(){init()});
