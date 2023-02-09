@@ -56,15 +56,22 @@ function showNewBoardModal() {
     modalManager.showModal();
 }
 
-async function newCardFormBuilder(clickEvent) {
+async function newCardModalBuilder(clickEvent) {
   const boardId = clickEvent.target.dataset.boardId;
+  const boardTitle = document.querySelector(`.board-title[data-board-id="${boardId}"]`).innerHTML;
   const content = `<br><form onsubmit="return false;" data-board-id="${boardId}">
+                        <label>Title:</label>
                         <input type="text" placeholder="Card Title" required>
+                        <br>
+                        <label>Column:</label>
                         <select id="statuses">
                         </select>
+                        <br>
+                        <br>
                         <button type="submit">Save</button>
                     </form>`;
-  document.querySelector(`#newFormField`).innerHTML = content;
+  document.querySelector(`.modal-content`).innerHTML = content;
+  document.getElementsByClassName('modal-header-text')[0].textContent = `New Card for ${boardTitle}`;
   const statuses = await dataHandler.getStatuses(boardId);
   const select = document.querySelector("#statuses");
   for (let status of statuses) {
@@ -73,11 +80,16 @@ async function newCardFormBuilder(clickEvent) {
     option.text = status.title;
     select.appendChild(option);
   }
+  domManager.addEventListener(
+      `.modal-content form`,
+      "submit",
+      cardsManager.addCardHandler
+  );
 
   if (! domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
       document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
   }
-  domManager.addEventListener(`#newFormField form`, "submit", cardsManager.addCardHandler);
+  modalManager.showModal();
 }
 
 async function newColumnModalBuilder(clickEvent) {
@@ -151,7 +163,7 @@ function initBoardEvents(board) {
     domManager.addEventListener(
         `.board-add-card[data-board-id="${board.id}"]`,
         "click",
-        newCardFormBuilder
+        newCardModalBuilder
     );
     domManager.addEventListener(
         `.board-add-col[data-board-id="${board.id}"]`,

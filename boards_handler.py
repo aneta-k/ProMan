@@ -46,7 +46,7 @@ def create_board(title):
 
 
 def delete_board(board_id):
-    data_manager.execute(
+    data_manager.execute_query(
         """
         DELETE FROM boards
         WHERE id = %(board_id)s
@@ -56,7 +56,7 @@ def delete_board(board_id):
 
 
 def change_board_title(board_id, title):
-    data_manager.execute(
+    data_manager.execute_query(
         """
         UPDATE boards
         SET title = %(title)s
