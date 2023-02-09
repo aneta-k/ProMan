@@ -24,7 +24,7 @@ function refresh_boards() {
   let openBoardsArray = clearTheBoards();
   domManager.deleteChildren(`.board-container`);
   init();
-  setTimeout(() => {reOpenBoards(openBoardsArray)}, 50);
+  setTimeout(() => {reOpenBoards(openBoardsArray)}, 200);
 };
 
 function clearTheBoards() {
