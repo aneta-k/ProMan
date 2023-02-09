@@ -52,7 +52,7 @@ def get_card_by_id(card_id):
 
 
 def delete_card(card_id):
-    data_manager.execute(
+    data_manager.execute_query(
         """
         DELETE FROM cards
         WHERE id = %(card_id)s
@@ -62,7 +62,7 @@ def delete_card(card_id):
 
 
 def update_card_status(card_id, status_id):
-    data_manager.execute(
+    data_manager.execute_query(
         """
         UPDATE cards
         SET status_id = %(status_id)s
@@ -107,7 +107,7 @@ def update_card_archived_status(card_id, new_archived_status):
 
 
 def change_card_title(card_id, title):
-    data_manager.execute(
+    data_manager.execute_query(
         """
         UPDATE cards
         SET title = %(title)s

@@ -2,7 +2,7 @@ import data_manager
 
 
 def delete_column(column_id):
-    data_manager.execute(
+    data_manager.execute_query(
         """
         DELETE FROM statuses
         WHERE id = %(column_id)s
@@ -34,7 +34,7 @@ def get_statuses(board_id):
 
 
 def change_column_title(column_id, title):
-    data_manager.execute(
+    data_manager.execute_query(
         """
         UPDATE statuses
         SET title = %(title)s

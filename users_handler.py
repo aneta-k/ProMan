@@ -9,7 +9,7 @@ def get_user_from_username(username):
 
 
 def register_new_user(username, password):
-    return data_manager.execute("""
+    return data_manager.execute_query("""
         INSERT INTO users (username, password)
         VALUES (%(username)s, %(password)s)
         """, {'username': username, 'password': password})

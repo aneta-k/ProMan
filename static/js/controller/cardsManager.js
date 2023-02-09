@@ -2,6 +2,7 @@ import { dataHandler } from "../data/dataHandler.js";
 import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
 import { domManager } from "../view/domManager.js";
 import { dragHandler } from "../dragHandler.js";
+import {modalManager} from "./modalManager.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -17,8 +18,8 @@ export let cardsManager = {
         const currentColumn = document.querySelector(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${status}"] .board-column-content`);
         const cardOrder = currentColumn.childElementCount + 1;
         let newCard = await dataHandler.createNewCard(title, boardId, status, cardOrder);
-        domManager.deleteChildren(`#newFormField`);
         initNewCardEvents(newCard, boardId);
+        modalManager.closeModal();
     },
     loadArchivedCards: async function (boardId) {
         const cards = await dataHandler.getCardsByBoardId(boardId, true);
