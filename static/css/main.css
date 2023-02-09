@@ -70,3 +70,35 @@
 .column-delete {
     /* float: right; */
 }
+
+.history-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    background-color: white;
+    height: 100%;
+    width: 15%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border-left: black 2px solid;
+}
+
+.history-header {
+    text-align: center;
+    border-bottom: black 2px solid;
+}
+
+.history-content {
+    height: 90%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.history-card {
+    position: relative;
+    background: #c9c9c9;
+    border-radius: var(--border-radius);
+    margin: 4px 0;
+    padding: 4px;
+}
