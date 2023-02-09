@@ -42,22 +42,10 @@ async function reOpenBoards(openBoardsArray) {
   let newBoards = document.getElementsByClassName("board-toggle toggle-board-button");
   console.log(newBoards);
   for (let i = 0; i < newBoards.length; i++) {
-    if (openBoardsArray.includes(newBoards[i].attributes[1].value)) {
-      newBoards[i].children[0].className = "fas fa-chevron-up";
-      let boardId = newBoards[i].attributes[1].value;
-    if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
-        domManager.deleteChildren(`.board[data-board-id="${boardId}"] .board-columns`);
-        if (domManager.hasChildren(`.board-archived-container[data-board-id="${boardId}"]`)) {
-            domManager.deleteChildren(`.board-archived-container[data-board-id="${boardId}"]`);
-        }
-        if (document.querySelector(`form[data-board-id="${boardId}"]`)) {
-            domManager.deleteChildren(`#newFormField`);
-        }
-    } else {
-        await columnManager.loadColumns(boardId);
-        await cardsManager.loadCards(boardId);
-    }
-    }
+    let boardId = newBoards[i].attributes[1].value;
+    if (openBoardsArray.includes(newBoards[i].attributes[1].value))  {
+      document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
+  }
   };
 };
 
