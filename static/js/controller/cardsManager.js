@@ -3,6 +3,7 @@ import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
 import { domManager } from "../view/domManager.js";
 import { dragHandler } from "../dragHandler.js";
 import {modalManager} from "./modalManager.js";
+import {historyManager} from "./historyManager.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -18,6 +19,7 @@ export let cardsManager = {
         const currentColumn = document.querySelector(`.board-columns[data-board-id="${boardId}"] .board-column[data-column-id="${status}"] .board-column-content`);
         const cardOrder = currentColumn.childElementCount + 1;
         let newCard = await dataHandler.createNewCard(title, boardId, status, cardOrder);
+        historyAddCard(title, boardId);
         initNewCardEvents(newCard, boardId);
         modalManager.closeModal();
     },
@@ -55,6 +57,7 @@ async function unarchiveButtonHandler(clickEvent) {
 function deleteButtonHandler(clickEvent) {
   let cardId = clickEvent.target.dataset.cardId;
   dataHandler.deleteCard(cardId);
+  historyDeleteCard(cardId);
   if(clickEvent.target.previousElementSibling.classList.contains('card-archive')){
       updateCardOrderAfterCardDelete(clickEvent);
   }
@@ -119,4 +122,19 @@ function initArchivedCardEvents(card, boardId) {
         "click",
         changeCardTitle
     );
+}
+
+function historyAddCard(title, boardId) {
+    const boardTitle = document.querySelector(`.board-title[data-board-id="${boardId}"]`).textContent;
+    const text = `Card '` + title + `' added to board '` + boardTitle + `'.`;
+    historyManager.addCard(text);
+}
+
+function historyDeleteCard(cardId) {
+    const cardTitle = document.querySelector(`.card-title[card-title-id="${cardId}"]`).textContent;
+    const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
+    const boardId = card.getAttribute('data-board-id');
+    const boardTitle = document.querySelector(`.board-title[data-board-id="${boardId}"]`).textContent;
+    const text = `Card '` + cardTitle + `' removed from board '` + boardTitle + `'.`;
+    historyManager.addCard(text);
 }
