@@ -21,7 +21,7 @@ setInterval(() => {refresh_boards()}, 5000)
 
 
 function refresh_boards() {
-  if (document.querySelector('#modal').getAttribute('display') === 'none') {
+  if (document.querySelector('#modal').style.display === 'none') {
     let openBoardsArray = clearTheBoards();
     domManager.deleteChildren(`.board-container`);
     init();
