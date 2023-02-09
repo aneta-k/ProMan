@@ -114,8 +114,7 @@
 
 #newBoard {
     position: absolute;
-        left: 310px;
-        z-index:960;
+        left: 25%;
         float: left;
         top: 150px;
     }
