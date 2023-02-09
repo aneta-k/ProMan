@@ -28,12 +28,11 @@
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <span>{% if not session['username'] %}<button id="loginButton">Login</button><button id="registerButton">Register</button>{% else %}<button id="logoutButton">Logout</button>{% endif %}</span>
+        <span>{% if not session['username'] %}<button id="loginButton">Login</button><button id="registerButton">Register</button>{% else %}<button id="logoutButton">Logout</button>{% endif %}</span>  <img id="refresh" class="refresh" src="{{ url_for('static', filename='favicon/refresh.png') }}">
         <h1>ProMan</h1>
-        <div id="root" class="board-container">
-            <button type="button" id="newBoard">Create new Board</button>
-            <div id="newFormField"></div>
-        </div>
+        <button type="button" id="newBoard">Create new Board</button>
+        <div id="newFormField"></div>
+        <div id="root" class="board-container"></div>
         <div class="history-container">
             <div class="history-header"><h2>History</h2></div>
             <div class="history-content"></div>

@@ -26,16 +26,16 @@ self.addEventListener("install", e => {
 			"./static/css/main.css", 
 			"./static/css/design.css"]);
 		}),
-		caches.open('templates').then(cache =>{
-			return cache.addAll([
-			"/index.html"]);
-		})
+		// caches.open('templates').then(cache =>{
+		// 	return cache.addAll([
+		// 	"/index.html"]);
+		// })
 	);
 	
 });
 
 self.addEventListener("fetch", e => {
-	console.log(`Intercepting ${e.request.url}`);
+	// console.log(`Intercepting ${e.request.url}`);
 	e.respondWith (
 		caches.match(e.request).then(response => {
 			return response || fetch(e.request);
