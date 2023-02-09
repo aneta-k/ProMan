@@ -21,10 +21,12 @@ setInterval(() => {refresh_boards()}, 5000)
 
 
 function refresh_boards() {
-  let openBoardsArray = clearTheBoards();
-  domManager.deleteChildren(`.board-container`);
-  init();
-  setTimeout(() => {reOpenBoards(openBoardsArray)}, 200);
+  if (document.querySelector('#modal').getAttribute('display') === 'none') {
+    let openBoardsArray = clearTheBoards();
+    domManager.deleteChildren(`.board-container`);
+    init();
+    setTimeout(() => {reOpenBoards(openBoardsArray)}, 200);
+  };
 };
 
 function clearTheBoards() {
