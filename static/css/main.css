@@ -67,6 +67,23 @@
     cursor: pointer;
 }
 
+#refresh {
+    cursor: pointer;
+    border-radius: 50%;
+    object-position: right top;
+    max-width: 5%;
+    height: 20px;
+    
+}
+
 .column-delete {
     /* float: right; */
 }
+
+#newBoard {
+    position: absolute;
+        left: 310px;
+        z-index:960;
+        float: left;
+        top: 150px;
+    }
