@@ -19,8 +19,7 @@
 
 ## Technologies Used :wrench:
 
-- **JavaScript** ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png)
-- **HTML5** ![HTML5](https://img.icons8.com/color/48/000000/html-5.png)
+![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) ![HTML5](https://img.icons8.com/color/48/000000/html-5.png)
 - **CSS3** ![CSS3](https://img.icons8.com/color/48/000000/css3.png)
 - **Python** ![Python](https://img.icons8.com/color/48/000000/python.png)
 - **Flask** ![Flask](https://img.icons8.com/color/48/000000/flask.png)
@@ -76,7 +75,7 @@ Remember to adjust the database connection settings in the application configura
 
 1. **Clone the application**: 
     ```
-    git clone git@github.com:
+    git@github.com:aneta-k/ProMan.git
     ```
 2. **Navigate to the project directory and install dependencies**:
     ```
