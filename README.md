@@ -19,11 +19,7 @@
 
 ## Technologies Used :wrench:
 
-![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) ![HTML5](https://img.icons8.com/color/48/000000/html-5.png)
-- **CSS3** ![CSS3](https://img.icons8.com/color/48/000000/css3.png)
-- **Python** ![Python](https://img.icons8.com/color/48/000000/python.png)
-- **Flask** ![Flask](https://img.icons8.com/color/48/000000/flask.png)
-- **PostgreSQL** ![PostgreSQL](https://img.icons8.com/color/48/000000/postgreesql.png)
+![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) ![HTML5](https://img.icons8.com/color/48/000000/html-5.png) ![CSS3](https://img.icons8.com/color/48/000000/css3.png) ![Python](https://img.icons8.com/color/48/000000/python.png) ![Flask](https://img.icons8.com/color/48/000000/flask.png) ![PostgreSQL](https://img.icons8.com/color/48/000000/postgreesql.png)
 
 ---
 
