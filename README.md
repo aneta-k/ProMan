@@ -28,7 +28,7 @@
 
 ---
 
-![App Screenshot](https://github.com/aneta-k/ProMan/blob/development/ProMan/design-materials/READMEpage1.jpg)
+![App Screenshot](https://github.com/aneta-k/ProMan/blob/development/design-materials/READMEpage1.jpg)
 
 ---
 
