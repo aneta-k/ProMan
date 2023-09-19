@@ -1,63 +1,90 @@
-# ProMan (sprint 2)
+# ProMan :rocket:
 
-## Story
+---
 
-### Another email from the client
+### ProMan is a project management tool designed to help teams streamline their workflow using the Kanban methodology. With its intuitive UI, customizable boards, and efficient task management capabilities, ProMan is the go-to solution for teams looking to supercharge their project delivery.
 
+---
+
+## Features :star:
+
+- **Customizable Boards**: Create, customize and manage multiple boards to match your project's requirements.
+- **Advanced Task Management**: Add, edit, archive, or delete tasks with ease. 
+- **User Management**: Register, login, and manage user profiles.
+- **Interactive Modals**: Utilize dynamic modals for user interactions.
+- **Drag & Drop**: Easily change task statuses with intuitive drag & drop functionality.
+- **Activity History**: Keep track of all activities and changes made in the project.
+
+---
+
+## Technologies Used :wrench:
+
+- **JavaScript** ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png)
+- **HTML5** ![HTML5](https://img.icons8.com/color/48/000000/html-5.png)
+- **CSS3** ![CSS3](https://img.icons8.com/color/48/000000/css3.png)
+- **Python** ![Python](https://img.icons8.com/color/48/000000/python.png)
+- **Flask** ![Flask](https://img.icons8.com/color/48/000000/flask.png)
+- **PostgreSQL** ![PostgreSQL](https://img.icons8.com/color/48/000000/postgreesql.png)
+
+---
+
+![App Screenshot](https://github.com/aneta-k/ProMan/blob/development/ProMan/design-materials/READMEpage1.jpg)
+
+---
+
+## Project team :busts_in_silhouette:
+
+- [Aneta Kuśnierz](https://github.com/aneta-k)
+- [Tomek Citko](https://github.com/TomaszCitko)
+- [Oskar Rudy](https://github.com/Ostin-Oskarose)
+
+This was a group project and we dedicated two weeks of intensive work to bring ProMan to life.
+
+---
+
+## Requirements :clipboard:
+
+- PostgreSQL version: 12.12
+- Python version: 3.10.9
+
+## Database Configuration :floppy_disk:
+
+Before running ProMan, ensure you have PostgreSQL installed. Adjust the database connection settings in the application's configuration to match your setup (.env.template). You'll need to provide:
+
+- Database name
+- Username
+- Password
+- Host
+
+## Database Setup :floppy_disk:
+
+1. **Create the ProMan database**:
+```bash
+createdb proman
 ```
-From: Mark Smith <ceo@thepartner.com>
 
-Subject: Re: Proman progress
-
-Well, we are closing up on Trello so we can go for world domination soon!
-
-You did a decent job on your first sprint of ProMan. The backlog already
-contains all our feature requests, I only have one more:
-
-Deploy the app by the end of the sprint, so we can start promoting it.
-
-Just as last week, send us the sprint backlog ASAP, and we'll meet at the demo.
-
-Remember, quality work is a must, we want to conquer the world with this new product!
-
-Oh and I hope you've learnt from Jacob's mistake about arriving late to the office...
-
-Mark
+2. **Initialize the database with sample data**:
+- Navigate to the project directory.
+- Use the provided SQL script to set up the database schema and populate it with sample data:
+```bash
+psql proman -f proman_sample_data.sql
 ```
 
-## What are you going to learn?
+Remember to adjust the database connection settings in the application configuration to match your setup.
 
-- Understand practical AJAX usage.
-- Master web development.
-- Plan the development of an advanced product.
-- Deploy your project.
+## Installation and Running :gear:
 
-## Tasks
-
-1. Deploy the ProMan project so it is hosted on a publicly accessible server.
-    - There is a public URL where the finished product can be tested.
-    - The public version of the app is used on the sprint demo.
-
-2. Create a new sprint from the existing backlog. Last week you had a long list of stories, but you only one new story (Deploy ProMan) this week.
-    - The new task is added to the backlog.
-    - A new sprint plan is created from the unfinished stories.
-
-## General requirements
-
-None
-
-## Hints
-
-- Continue working on the same repository as the first part of this project.
-
-## Background materials
-
-- <i class="far fa-exclamation"></i> [Deployment to Heroku](project/curriculum/materials/pages/devops/deploy-flask-app-to-heroku.md)
-- <i class="far fa-exclamation"></i> [Callbacks](project/curriculum/materials/pages/javascript/javascript-callbacks.md)
-- <i class="far fa-exclamation"></i> [API, AJAX](project/curriculum/materials/pages/web/the-last-missing-piece-api.md)
-- <i class="far fa-exclamation"></i> [RESTful](project/curriculum/materials/pages/web/restful.md)
-- [Pass by value vs by reference](project/curriculum/materials/pages/javascript/javascript-pass-by-value-vs-reference.md)
-- [Modules](project/curriculum/materials/pages/javascript/javascript-modules.md)
-- [Keyword this](project/curriculum/materials/pages/javascript/javascript-this.md)
-- [Tips & Tricks](project/curriculum/materials/pages/web/web-with-python-tips.md)
-
+1. **Clone the application**: 
+    ```
+    git clone git@github.com:
+    ```
+2. **Navigate to the project directory and install dependencies**:
+    ```
+    cd ProMan
+    pip install -r requirements.txt
+    ```
+3. **Start the application**:
+    ```
+    flask run
+    ```
+    The application will be accessible at: [http://localhost:5000](http://localhost:5000)
