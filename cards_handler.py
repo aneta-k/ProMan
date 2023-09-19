@@ -114,4 +114,3 @@ def change_card_title(card_id, title):
         ;
         """
         , {"card_id": card_id, "title": title})
-    
