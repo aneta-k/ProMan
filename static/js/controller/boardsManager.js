@@ -36,6 +36,17 @@ async function showHideButtonHandler(clickEvent) {
     }
 }
 
+function showModalWithContent(headerText, content, submitHandler) {
+    document.getElementsByClassName('modal-header-text')[0].textContent = headerText;
+    document.querySelector(`.modal-content`).innerHTML = content;
+
+    if (submitHandler) {
+        domManager.addEventListener(`.modal-content form`, "submit", submitHandler);
+    }
+
+    modalManager.showModal();
+}
+
 function showNewBoardModal() {
     const content = `<form onsubmit="return false;">
                         <label>Title:</label>
@@ -50,78 +61,70 @@ function showNewBoardModal() {
                         ` : ``)
                         + `<button type="submit">Save</button>
                     </form>`;
-    document.getElementsByClassName('modal-header-text')[0].textContent = 'New Board';
-    document.querySelector(`.modal-content`).innerHTML = content;
-    domManager.addEventListener(`.modal-content form`, "submit", submitNewBoard);
-    modalManager.showModal();
+    showModalWithContent('New Board', content, submitNewBoard);
 }
 
 async function newCardModalBuilder(clickEvent) {
   const boardId = clickEvent.target.dataset.boardId;
   const boardTitle = document.querySelector(`.board-title[data-board-id="${boardId}"]`).innerHTML;
-  const content = `<br><form onsubmit="return false;" data-board-id="${boardId}">
-                        <label>Title:</label>
-                        <input type="text" placeholder="Card Title" required>
-                        <br>
-                        <label>Column:</label>
-                        <select id="statuses">
-                        </select>
-                        <br>
-                        <br>
-                        <button type="submit">Save</button>
-                    </form>`;
-  document.querySelector(`.modal-content`).innerHTML = content;
-  document.getElementsByClassName('modal-header-text')[0].textContent = `New Card for ${boardTitle}`;
-  const statuses = await dataHandler.getStatuses(boardId);
-  const select = document.querySelector("#statuses");
-  for (let status of statuses) {
-    let option = document.createElement("option");
-    option.value = status.id;
-    option.text = status.title;
-    select.appendChild(option);
-  }
-  domManager.addEventListener(
-      `.modal-content form`,
-      "submit",
-      cardsManager.addCardHandler
-  );
 
-  if (! domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
+  const statuses = await dataHandler.getStatuses(boardId);
+  let optionsHTML = statuses.map(status => `<option value="${status.id}">${status.title}</option>`).join('');
+
+  const content = `
+    <br>
+    <form onsubmit="return false;" data-board-id="${boardId}">
+        <label>Title:</label>
+        <input type="text" placeholder="Card Title" required>
+        <br>
+        <label>Column:</label>
+        <select id="statuses">
+            ${optionsHTML}
+        </select>
+        <br><br>
+        <button type="submit">Save</button>
+    </form>
+  `;
+
+  showModalWithContent(`New Card for ${boardTitle}`, content, cardsManager.addCardHandler);
+
+  if (!domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
       document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
   }
-  modalManager.showModal();
 }
 
-async function newColumnModalBuilder(clickEvent) {
+function newColumnModalBuilder(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     const boardTitle = document.querySelector(`.board-title[data-board-id="${boardId}"]`).innerHTML;
-    const content = `<form onsubmit="return false;" data-board-id="${boardId}">
-                        <label>Title:</label>
-                        <input type="text" placeholder="Column Title" required>
-                        <br>
-                        <br>
-                        <button type="submit">Save</button>
-                    </form>`;
-    document.getElementsByClassName('modal-header-text')[0].textContent = `New Column for ${boardTitle}`;
-    document.querySelector(`.modal-content`).innerHTML = content;
-    domManager.addEventListener(
-        `.modal-content form`,
-        "submit",
-        columnManager.addNewColumnHandler
-    );
+
+    const content = `
+        <form onsubmit="return false;" data-board-id="${boardId}">
+            <label>Title:</label>
+            <input type="text" placeholder="Column Title" required>
+            <br><br>
+            <button type="submit">Save</button>
+        </form>
+    `;
+
+    showModalWithContent(`New Column for ${boardTitle}`, content, columnManager.addNewColumnHandler);
+
     if (domManager.hasChildren(`.board[data-board-id="${boardId}"] .board-columns`)) {
         document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`).dispatchEvent(new Event('click'));
     }
-    modalManager.showModal();
 }
 
 async function submitNewBoard(event) {
-  const title = event.currentTarget[0].value;
-  let privateBoard = false;
-  if (userManager.isLoggedIn()) {privateBoard = event.currentTarget[1].value}
-  let board = (await dataHandler.createNewBoard(title, privateBoard))[0];
-  initBoardEvents(board);
-  await columnManager.addDefaultColumns(board.id);
+  try {
+    const title = event.currentTarget[0].value;
+    let privateBoard = false;
+    if (userManager.isLoggedIn()) {privateBoard = event.currentTarget[1].value}
+    let board = (await dataHandler.createNewBoard(title, privateBoard))[0];
+    initBoardEvents(board);
+    await columnManager.addDefaultColumns(board.id);
+  } catch (error) {
+    console.error('Failed to submit new board:', error);
+  }
+
 }
 
 async function boardArchiveButtonHandler(clickEvent) {

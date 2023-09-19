@@ -1,5 +1,18 @@
 import {dataHandler} from "./data/dataHandler.js";
 
+const dom = {
+    isEmpty: function (el) {
+        return el.children.length === 0;
+    },
+    hasClass: function (el, cls) {
+        return el.classList.contains(cls);
+    },
+};
+
+const page = {
+    dragged: null,
+};
+
 export const dragHandler = {
      initDraggable(draggable) {
         draggable.setAttribute("draggable", true);
@@ -12,7 +25,7 @@ export const dragHandler = {
         dropzone.addEventListener("dragleave", handleDragLeave);
         dropzone.addEventListener("drop", handleDrop);
      },
-    updateOrderAttributes: async function (boardId) {
+    async updateOrderAttributes(boardId) {
         const newCardsData = await dataHandler.getCardsByBoardId(boardId, false);
         const allCardsElements = document.querySelectorAll('.card');
         for (let card of allCardsElements){
@@ -24,32 +37,13 @@ export const dragHandler = {
     }
 };
 
-const dom = {
-    isEmpty: function (el) {
-        return el.children.length === 0;
-    },
-    hasClass: function (el, cls) {
-        return el.classList.contains(cls);
-    },
-};
-
-
-const page = {
-    dragged: null,
-};
-
-
 function handleDragStart(e) {
     page.dragged = e.currentTarget;
     page.dragged.classList.add('card-dragged')
-
-    console.log("Drag start of", page.dragged);
 }
 
 function handleDragEnd() {
-    console.log("Drag end of", page.dragged);
     page.dragged.classList.remove('card-dragged')
-
     page.dragged = null;
 }
 
@@ -58,12 +52,11 @@ function handleDragOver(e) {
 }
 
 function handleDragEnter(e) {
-    console.log("Drag enter of", e.currentTarget);
+    // console.log("Drag enter of", e.currentTarget);
 }
 
 function handleDragLeave(e) {
-    console.log("Drag leave of", e.currentTarget);
-    let dropzone = e.currentTarget;
+    const dropzone = e.currentTarget;
     if (dropzone.classList.contains('card-slot')) {
         dropzone.classList.remove('card-slot-enter-highlighted');
     } else {
@@ -74,7 +67,7 @@ function handleDragLeave(e) {
 async function handleDrop(e) {
     e.preventDefault();
     const dropzone = e.currentTarget;
-    console.log("Drop of", dropzone);
+
     const oldOrder = page.dragged.dataset.cardOrder;
     const oldStatus = page.dragged.parentElement.parentElement.dataset.columnId;
     const newStatus = dropzone.dataset.columnId;

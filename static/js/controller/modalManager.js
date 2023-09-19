@@ -1,5 +1,6 @@
 export let modalManager = {
     init: function () {
+        const modal = document.getElementById('modal');
         window.onclick = function(event) {
             if (event.target === modal) {
                 modalManager.closeModal();

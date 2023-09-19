@@ -18,10 +18,7 @@ export function htmlFactory(template) {
   }
 
   console.error("Undefined template: " + template);
-
-  return () => {
-    return "";
-  };
+  return () => "";
 }
 
 function boardBuilder(board) {
