@@ -2,6 +2,13 @@ import os
 import psycopg2
 import psycopg2.extras
 
+# Constants
+DB_URL = 'DATABASE_URL'
+DB_NAME = 'MY_PSQL_DBNAME'
+DB_USER = 'MY_PSQL_USER'
+DB_HOST = 'MY_PSQL_HOST'
+DB_PASSWORD = 'MY_PSQL_PASSWORD'
+
 
 def establish_connection(connection_data=None):
     """
@@ -9,8 +16,8 @@ def establish_connection(connection_data=None):
     :connection_data: Connection string attributes
     :returns: psycopg2.connection
     """
-    if os.environ.get('DATABASE_URL') is not None:
-        connection_string = os.environ.get('DATABASE_URL')
+    if os.environ.get(DB_URL) is not None:
+        connection_string = os.environ.get(DB_URL)
         connection = psycopg2.connect(connection_string)
         connection.autocommit = True
         return connection
@@ -24,8 +31,7 @@ def establish_connection(connection_data=None):
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except psycopg2.DatabaseError as e:
-        print("Cannot connect to database.")
-        print(e)
+        print(f"Cannot connect to database. Error: {e}")
     else:
         return conn
 
@@ -34,16 +40,16 @@ def get_connection_data(db_name=None):
     """
     Give back a properly formatted dictionary based on the environment variables values which are started
     with :MY__PSQL_: prefix
-    :db_name: optional parameter. By default it uses the environment variable value.
+    :db_name: optional parameter. By default, it uses the environment variable value.
     """
     if db_name is None:
-        db_name = os.environ.get('MY_PSQL_DBNAME')
+        db_name = os.environ.get(DB_NAME)
 
     return {
         'dbname': db_name,
-        'user': os.environ.get('MY_PSQL_USER'),
-        'host': os.environ.get('MY_PSQL_HOST'),
-        'password': os.environ.get('MY_PSQL_PASSWORD')
+        'user': os.environ.get(DB_USER),
+        'host': os.environ.get(DB_HOST),
+        'password': os.environ.get(DB_PASSWORD)
     }
 
 
@@ -65,6 +71,11 @@ def execute_select(statement, variables=None, fetchall=True):
 
 
 def execute_query(statement, variables=None):
+    """
+    Execute a SQL query with optional variables.
+    :statement: SQL statement
+    :variables: Dictionary of SQL parameters
+    """
     with establish_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             cursor.execute(statement, variables)

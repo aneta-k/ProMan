@@ -3,8 +3,8 @@ import data_manager
 
 def get_public_boards():
     """
-    Gather all boards
-    :return:
+    Retrieve all public boards from the database.
+    :returns: List of dictionaries, each representing a public board.
     """
     return data_manager.execute_select(
         """
@@ -18,8 +18,9 @@ def get_public_boards():
 
 def get_public_and_private_boards(user_id):
     """
-    Gather all boards
-    :return:
+    Retrieve all public and private boards of a specific user
+    :param user_id: ID of the user.
+    :returns: List of dictionaries, each representing a board.
     """
     return data_manager.execute_select(
         """

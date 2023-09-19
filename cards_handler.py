@@ -3,31 +3,30 @@ import data_manager
 
 def get_card_status(status_id):
     """
-    Find the first status matching the given id
-    :param status_id:
-    :return: str
+    Retrieve the status details for a given status ID
+    :param status_id: ID of the status.
+    :returns: Dictionary representing the status details.
     """
-    status = data_manager.execute_select(
+    query = """
+            SELECT * FROM statuses s
+            WHERE s.id = %(status_id)s
         """
-        SELECT * FROM statuses s
-        WHERE s.id = %(status_id)s
-        ;
-        """
-        , {"status_id": status_id})
-
-    return status
+    return data_manager.execute_select(query, {"status_id": status_id})
 
 
 def get_cards_for_board(board_id, archived_status):
-    matching_cards = data_manager.execute_select(
+    """
+        Retrieve all cards for a specific board based on their archived status
+        :param board_id: ID of the board
+        :param archived_status: Boolean representing the archived status of the cards.
+        :returns: List of dictionaries, each representing a card.
         """
-        SELECT * FROM cards
-        WHERE cards.board_id = %(board_id)s AND cards.archived = %(archived_status)s
-        ORDER BY card_order;
+    query = """
+            SELECT * FROM cards
+            WHERE cards.board_id = %(board_id)s AND cards.archived = %(archived_status)s
+            ORDER BY card_order
         """
-        , {"board_id": board_id, "archived_status": archived_status})
-
-    return matching_cards
+    return data_manager.execute_select(query, {"board_id": board_id, "archived_status": archived_status})
 
 
 def add_new_card(card, board_id):
@@ -115,3 +114,4 @@ def change_card_title(card_id, title):
         ;
         """
         , {"card_id": card_id, "title": title})
+    
